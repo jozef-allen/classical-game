@@ -1,0 +1,13 @@
+{
+  "name": "imba-project",
+  "type": "module",
+  "scripts": {
+    "dev": "imba serve",
+    "build": "imba build",
+    "preview": "imba preview"
+  },
+  "devDependencies": {
+    "vite": "*",
+    "imba": "*"
+  }
+}
