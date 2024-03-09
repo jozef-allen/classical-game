@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "imba": "^2.0.0-alpha.235"
+  },
+  "dependencies": {
+    "howler": "^2.2.4"
   }
 }
