@@ -4,6 +4,20 @@ import {composers} from "./composers.imba"
 
 global css body c:warm2 bg:warm8 ff:Arial inset:0 d:vcc
 
+tag choices
+
+	prop choiceOne
+	prop choiceTwo
+	prop choiceThree
+	prop choiceFour
+
+	<self>
+		<button @click=emit("validateAnswer", choiceOne)> choiceOne
+		<button @click=emit("validateAnswer", choiceTwo)> choiceTwo
+		<button @click=emit("validateAnswer", choiceThree)> choiceThree
+		<button @click=emit("validateAnswer", choiceFour)> choiceFour
+		# <img.portrait src=composers["Johann Strauss II"].image>
+
 tag app
 
 	css .portrait height:200px
@@ -11,7 +25,9 @@ tag app
 	prop work
 	prop sound
 	prop howl
-	prop endOfGame = false
+	prop startOfGame = yes
+	prop endOfGame = no
+	prop response = null
 
 	# handling works
 	prop numberOfWorks = Object.keys(works).length;
@@ -36,8 +52,15 @@ tag app
 		sound = new Howl({src: work.src});
 		sound.play();
 
-	def stop
-		sound.stop()
+	def stopSound
+		if sound != null
+			sound.stop()
+
+	def validateAnswer answer
+		if answer.detail === work.composer
+			response = "Correct!"
+		else
+			response = "Incorrect!"
 
 	def stageAndShuffleComposers
 		const auxiliaryArray = []
@@ -50,24 +73,19 @@ tag app
 		arrayOfComposers = auxiliaryArray.slice(0, 3)
 		arrayOfComposers.push(work.composer)
 		shuffleArray(arrayOfComposers)
-		console.log(arrayOfComposers)
-
-	def populateChoices
-		choiceOne = arrayOfComposers[0]
-		choiceTwo = arrayOfComposers[1]
-		choiceThree = arrayOfComposers[2]
-		choiceFour = arrayOfComposers[3]
 
 	def nextWork
+		stopSound()
 		currentWorkIndex += 1
 		if currentWorkIndex >= numberOfWorks
-			endOfGame = true
+			endOfGame = yes
 		else
 			arrayOfComposers = []
+			response = null
 			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
-			console.log {work}
 			stageAndShuffleComposers()
 			populateChoices()
+			playSound()
 	
 	def shuffleArray array
 		for i in [array.length - 1...0] by -1
@@ -77,31 +95,42 @@ tag app
 			array[j] = temp
 		array
 
+	def populateChoices
+		choiceOne = arrayOfComposers[0]
+		choiceTwo = arrayOfComposers[1]
+		choiceThree = arrayOfComposers[2]
+		choiceFour = arrayOfComposers[3]
+
 	def setup
 		for i in [0...numberOfWorks]
 			arrayOfNumbers.push(i)
 		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
-		console.log(shuffledArrayOfNumbers)
 		nextWork()
 
+	def startGame
+		startOfGame = no
 
 	
 	<self>
 		if endOfGame
 			<h1> "End of game"
-		else
+		else if startOfGame
+			<button @click=startGame> "Start"
+		else	
 			<h1> "Title: {work.title}"
-			<h2> "Composer: {work.composer}"
+			# <h2> "Composer: {work.composer}"
 			<h3> "Period: {work.period}"
 			<h4> "Composed in: {work.composedIn}"
 			<button @click=nextWork> "Next"
-			<button @click=playSound> "Play"
-			<button @click=stop> "Stop"
+			# <button @click=playSound> "Play"
+			<button @click=stopSound> "Stop"
 			<br>
-			<button @click=console.log(e)> choiceOne
-			<button @click=console.log(e)> choiceTwo
-			<button @click=console.log(e)> choiceThree
-			<button @click=console.log(e)> choiceFour
-			# <img.portrait src=composers["Johann Strauss II"].image>
+			<choices 
+				choiceOne=choiceOne 
+				choiceTwo=choiceTwo
+				choiceThree=choiceThree
+				choiceFour=choiceFour
+				@validateAnswer=validateAnswer(e)>
+			<div> response
 
 imba.mount <app>
