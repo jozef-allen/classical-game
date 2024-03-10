@@ -3,44 +3,33 @@ import {works} from "./works.imba"
 
 global css body c:warm2 bg:warm8 ff:Arial inset:0 d:vcc
 
-class Work
-		prop title
-		prop composer
-		prop period
-		prop composedIn
-		prop form
-		prop instrumentation
-		prop recordedIn
-		prop recordedBy
-		prop src
-
-		constructor item
-			title = item.title
-			composer = item.composer
-			period = item.period
-			composedIn = item.composedIn
-			form = item.form
-			instrumentation = item.instrumentation
-			recordedIn = item.recordedIn
-			recordedBy = item.recordedBy
-			src = item.src
-
 tag player
 
-	prop sound
-	prop currentWorkIndex = -1
-	prop shuffledWorks = works
-	prop howl
 	prop work
+	prop sound
+	prop howl
 	prop endOfGame = false
+	prop numberOfWorks = Object.keys(works).length;
+	prop arrayOfNumbers = []
+	prop shuffledArray = []
+	prop currentWorkIndex = -1
+	
 
 	def nextWork
 		currentWorkIndex += 1
-		if currentWorkIndex >= 6
+		if currentWorkIndex >= numberOfWorks
 			endOfGame = true
 		else
-			work = shuffledWorks[currentWorkIndex]
+			work = works[shuffledArray[currentWorkIndex]]
 			console.log {work}
+
+	def shuffleArray array
+		for i in array
+			let j = i + Math.floor(Math.random() * (array.length - i))
+			let temp = array[j]
+			array[j] = array[i]
+			array[i] = temp
+		array
 		
 	def playSound
 		if sound != null
@@ -54,7 +43,13 @@ tag player
 		sound.stop()
 
 	def setup
+		for i in [0...numberOfWorks]
+			arrayOfNumbers.push(i)
+		console.log(arrayOfNumbers)
+		shuffledArray = shuffleArray(arrayOfNumbers)
+		console.log(shuffledArray)
 		nextWork()
+
 	
 	<self>
 		if endOfGame

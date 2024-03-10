@@ -54,7 +54,7 @@ export const works = {
 	instrumentation: "Organ",
 	recordedIn: "2006",
 	recordedBy: "Ashtar Moïra",
-	src: "{baseUrl}toccate-and-fugue.mp3"
+	src: "{baseUrl}toccata-and-fugue.mp3"
 	},
 	5: {
 	title: "Come Again",
