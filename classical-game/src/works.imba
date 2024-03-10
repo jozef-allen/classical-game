@@ -1,4 +1,4 @@
-const baseUrl = "https://joseph.ptesquad.com/music/"
+const baseUrl = "https://joseph.ptesquad.com/game/music/"
 
 export const works = {
 	0: {
