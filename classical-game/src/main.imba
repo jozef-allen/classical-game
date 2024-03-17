@@ -10,6 +10,7 @@ tag choices
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
+	prop hideChoices
 
 	<self>
 		<button @click=emit("validateAnswer", choiceOne)> choiceOne
@@ -43,6 +44,7 @@ tag app
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
+	prop hideChoices = no
 	
 	def playSound
 		if sound != null
@@ -59,16 +61,21 @@ tag app
 	def validateAnswer answer
 		if answer.detail === work.composer
 			response = "Correct!"
+			hideChoices = yes
+			imba.commit()
 		else
 			response = "Incorrect!"
+			hideChoices = yes
+			imba.commit()
+		
 
 	def stageAndShuffleComposers
 		const auxiliaryArray = []
 		for composer in Object.values(composers)
 			auxiliaryArray.push(composer.name)
-		let index = auxiliaryArray.indexOf(work.composer)
-		if index != -1
-			auxiliaryArray.splice(index, 1)
+		let indexOfCurrentComposer = auxiliaryArray.indexOf(work.composer)
+		if indexOfCurrentComposer != -1
+			auxiliaryArray.splice(indexOfCurrentComposer, 1)
 		shuffleArray(auxiliaryArray)
 		arrayOfComposers = auxiliaryArray.slice(0, 3)
 		arrayOfComposers.push(work.composer)
@@ -82,6 +89,7 @@ tag app
 		else
 			arrayOfComposers = []
 			response = null
+			hideChoices = no
 			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
 			stageAndShuffleComposers()
 			populateChoices()
@@ -125,7 +133,7 @@ tag app
 			# <button @click=playSound> "Play"
 			<button @click=stopSound> "Stop"
 			<br>
-			<choices 
+			<choices [display:none]=hideChoices
 				choiceOne=choiceOne 
 				choiceTwo=choiceTwo
 				choiceThree=choiceThree
