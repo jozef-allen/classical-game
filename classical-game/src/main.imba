@@ -18,12 +18,24 @@ tag choices
 	prop choiceFour
 	prop hideChoices
 
+	prop indexOfOne
+	prop indexOfTwo
+	prop indexOfThree
+	prop indexOfFour
+
 	<self>
+		<img.portrait [height=100px] src=composers[choiceOne].image>
 		<button @click=emit("validateAnswer", choiceOne)> choiceOne
+		<br>
+		<img.portrait [height=100px] src=composers[choiceTwo].image>
 		<button @click=emit("validateAnswer", choiceTwo)> choiceTwo
+		<br>
+		<img.portrait [height=100px] src=composers[choiceThree].image>
 		<button @click=emit("validateAnswer", choiceThree)> choiceThree
+		<br>
+		<img.portrait [height=100px] src=composers[choiceFour].image>
 		<button @click=emit("validateAnswer", choiceFour)> choiceFour
-		# <img.portrait src=composers["Johann Strauss II"].image>
+
 
 tag app
 
@@ -35,6 +47,7 @@ tag app
 	prop startOfGame = yes
 	prop endOfGame = no
 	prop response = null
+	prop responseImage = null
 	prop points = 0
 
 	# handling works
@@ -68,17 +81,18 @@ tag app
 	def validateAnswer answer
 		if answer.detail === work.composer
 			response = "Correct! The answer was {work.composer}."
+			responseImage = <img [height=100px] src=composers[work.composer].image>
 			answered? = yes
 			points += 1
 		else
 			response = "Incorrect! The answer was {work.composer}."
-			answered? = yes
-		
+			responseImage = <img [height=100px] src=composers[work.composer].image>
+			answered? = yes	
 
 	def stageAndShuffleComposers
 		const auxiliaryArray = []
-		for composer in Object.values(composers)
-			auxiliaryArray.push(composer.name)
+		for composer in Object.keys(composers)
+			auxiliaryArray.push(composer)
 		let indexOfCurrentComposer = auxiliaryArray.indexOf(work.composer)
 		if indexOfCurrentComposer != -1
 			auxiliaryArray.splice(indexOfCurrentComposer, 1)
@@ -95,6 +109,7 @@ tag app
 		else
 			arrayOfComposers = []
 			response = null
+			responseImage = null
 			answered? = no
 			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
 			stageAndShuffleComposers()
@@ -139,7 +154,7 @@ tag app
 	<self>
 		if endOfGame
 			<h1> if points === 1 then "You scored {points} point!" else "You scored {points} points!"
-			<button @click=reset> "Go again"
+			<button @click=reset> "Play again"
 		else if startOfGame
 
 			<p> "Welcome to this classical music guessing game."
@@ -165,6 +180,7 @@ tag app
 				choiceFour=choiceFour
 				@validateAnswer=validateAnswer(e)>
 			<div> response
+			<div> responseImage
 			<div> "Points: {points}"
 
 imba.mount <app>
