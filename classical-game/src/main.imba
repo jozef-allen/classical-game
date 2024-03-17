@@ -4,6 +4,12 @@ import {composers} from "./composers.imba"
 
 global css body c:warm2 bg:warm8 ff:Arial inset:0 d:vcc
 
+tag question
+
+	<self>
+		<p> "Who is the composer of this piece?"
+
+
 tag choices
 
 	prop choiceOne
@@ -29,6 +35,7 @@ tag app
 	prop startOfGame = yes
 	prop endOfGame = no
 	prop response = null
+	prop points = 0
 
 	# handling works
 	prop numberOfWorks = Object.keys(works).length;
@@ -44,7 +51,7 @@ tag app
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
-	prop hideChoices = no
+	prop answered? = no
 	
 	def playSound
 		if sound != null
@@ -60,13 +67,12 @@ tag app
 
 	def validateAnswer answer
 		if answer.detail === work.composer
-			response = "Correct!"
-			hideChoices = yes
-			imba.commit()
+			response = "Correct! The answer was {work.composer}."
+			answered? = yes
+			points += 1
 		else
-			response = "Incorrect!"
-			hideChoices = yes
-			imba.commit()
+			response = "Incorrect! The answer was {work.composer}."
+			answered? = yes
 		
 
 	def stageAndShuffleComposers
@@ -89,7 +95,7 @@ tag app
 		else
 			arrayOfComposers = []
 			response = null
-			hideChoices = no
+			answered? = no
 			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
 			stageAndShuffleComposers()
 			populateChoices()
@@ -113,32 +119,52 @@ tag app
 		for i in [0...numberOfWorks]
 			arrayOfNumbers.push(i)
 		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
-		nextWork()
 
 	def startGame
 		startOfGame = no
+		nextWork()
+
+	def reset
+		arrayOfNumbers = []
+		for i in [0...numberOfWorks]
+			arrayOfNumbers.push(i)
+		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
+		currentWorkIndex = -1
+		response = null
+		points = 0
+		endOfGame = no
+		startOfGame = yes
 
 	
 	<self>
 		if endOfGame
-			<h1> "End of game"
+			<h1> if points === 1 then "You scored {points} point!" else "You scored {points} points!"
+			<button @click=reset> "Go again"
 		else if startOfGame
+
+			<p> "Welcome to this classical music guessing game."
+			<p> "Once you click 'Start', you'll be played various pieces of music and it's your job to answer questions about each."
+			<p> "You only get one try at each answer."
+			<p> "Good luck."
+
 			<button @click=startGame> "Start"
 		else	
 			<h1> "Title: {work.title}"
 			# <h2> "Composer: {work.composer}"
 			<h3> "Period: {work.period}"
 			<h4> "Composed in: {work.composedIn}"
-			<button @click=nextWork> "Next"
+			<button @click=nextWork> if answered? === yes then "Next" else "Skip"
 			# <button @click=playSound> "Play"
-			<button @click=stopSound> "Stop"
+			<button @click=stopSound> "Stop music"
 			<br>
-			<choices [display:none]=hideChoices
+			<question>
+			<choices [display:none]=answered?
 				choiceOne=choiceOne 
 				choiceTwo=choiceTwo
 				choiceThree=choiceThree
 				choiceFour=choiceFour
 				@validateAnswer=validateAnswer(e)>
 			<div> response
+			<div> "Points: {points}"
 
 imba.mount <app>
