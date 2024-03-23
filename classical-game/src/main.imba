@@ -2,15 +2,30 @@ import {Howl} from 'howler'
 import {works} from "./works.imba"
 import {composers} from "./composers.imba"
 
-global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1.25rem
+global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.8rem
+	h1 font-size:1.5rem @768:2.5rem @1024:3rem text-align:center
+	button font-family:'Hedvig Letters Serif' box-shadow: 1px 1px 1px font-size:1.25rem @768:1.75rem @1024:2rem bgc:yellow3 bg@hover:yellow4 color:gray9 font-weight: bold p:1rem border:1px border-radius:5px transition: background-color 0.3s ease
+	.startImage width:80% @1024:50% @1500:800px rd:10px box-shadow: 5px 5px 10px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:4rem @1024:5rem
 	.portrait height:200px
-	.container width:90% display: block margin-left:auto margin-right:auto
+	.container width:90% display:block margin-left:auto margin-right:auto
+	.introText text-align:center
+	.introButtonDiv display:flex justify-content:center p:1rem
 
 tag question
 
 	<self>
 		<p> "Who is the composer of this piece?"
 
+tag game-footer
+
+	prop currentYear = new Date().getFullYear()
+
+	css p text-align:center font-size:.75rem @768:1rem @1024:1.25rem pt:3rem
+
+	<self>
+		<p> "By "
+			<a href="https://joseph.ptesquad.com/"> "Joe Allen" 
+			" © {currentYear}"
 
 tag choices
 
@@ -31,7 +46,6 @@ tag choices
 		<br>
 		<img.portrait src=composers[choiceFour].image>
 		<button @click=emit("validateAnswer", choiceFour)> choiceFour
-
 
 tag app
 
@@ -149,17 +163,17 @@ tag app
 	<self>
 		<div.container>
 
-				<h1 [text-align:center]> "Classical Music Guessing Game"
+				<h1> "Classical Music Guessing Game"
 				if endOfGame
 					<h1> if points === 1 then "You scored {points} point!" else "You scored {points} points!"
 					<button @click=reset> "Play again"
 				else if startOfGame
-					<img [m:2rem width:80% rd:10px box-shadow: 5px 5px 10px gray9 display:block margin-left:auto margin-right:auto] src="https://joseph.ptesquad.com/game/images/orchestra.png">
-					<p [text-align:center]> "Welcome to this classical music guessing game."
-					<p [text-align:center]> "Once you click 'Start', you'll be played various pieces of music and it's your job to answer questions about each."
-					<p [text-align:center]> "You only get one try at each answer. Good luck."
-					<div [display:flex justify-content:center p:1rem]>
-						<button [font-family:'Hedvig Letters Serif' box-shadow: 1px 1px 1px font-size:1.25rem bg@hover:blue color:gray9 font-weight: bold p:1rem border:1px bgc:sky2 border-radius:5px] @click=startGame> "Start"
+					<img .startImage src="https://joseph.ptesquad.com/game/images/orchestra.png">
+					<p .introText> "🎼 Welcome to this classical music guessing game."
+					<p .introText> "🎼 Once you click 'Start', you'll be played various pieces of music and it's your job to answer questions about it."
+					<p .introText> "🎼 You only get one try at each answer. Best of luck."
+					<div .introButtonDiv>
+						<button @click=startGame> "Start"
 				else	
 					<h1> "Title: {work.title}"
 					# <h2> "Composer: {work.composer}"
@@ -179,5 +193,6 @@ tag app
 					<div> response
 					<div> responseImage
 					<div> "Points: {points}"
+				<game-footer>
 
 imba.mount <app>
