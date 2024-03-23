@@ -3,18 +3,29 @@ import {works} from "./works.imba"
 import {composers} from "./composers.imba"
 
 global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.8rem
-	h1 font-size:1.5rem @768:2.5rem @1024:3rem text-align:center
-	button font-family:'Hedvig Letters Serif' box-shadow: 1px 1px 1px font-size:1.25rem @768:1.75rem @1024:2rem bgc:yellow3 bg@hover:yellow4 color:gray9 font-weight: bold p:1rem border:1px border-radius:5px transition: background-color 0.3s ease
-	.startImage width:80% @1024:50% @1500:800px rd:10px box-shadow: 5px 5px 10px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:4rem @1024:5rem
-	.portrait height:200px
 	.container width:90% display:block margin-left:auto margin-right:auto
-	.introText text-align:center
-	.introButtonDiv display:flex justify-content:center p:1rem
+	.intro-h1 font-size:1.5rem @768:2.5rem @1024:3rem text-align:center
+	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease margin-right:10px
+	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
+	.intro-text text-align:center
+	.intro-button-div display:flex justify-content:center p:1rem
+	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem pr:1rem font-size:.75rem font-weight:bold rd:10px
+	.work-title font-size:.75rem text-align:center
+	.period font-size:.75rem text-align:center
+	.composed-in font-size:.75rem text-align:center
+	.two-buttons display:flex justify-content:center align-items:center pt:.5rem
+	.bold-text font-weight:bold
+	.response font-size:1.5rem text-align:center pt:.5rem
+	.end-message font-size:1.5rem text-align:center pt:.5rem
+	.reset-button display:block margin:auto
+
 
 tag question
 
+	css p font-size:1.5rem text-align:center pt:.5rem
+
 	<self>
-		<p> "Who is the composer of this piece?"
+		<p> "🎼 Who is the composer of this piece?"
 
 tag game-footer
 
@@ -34,18 +45,36 @@ tag choices
 	prop choiceThree
 	prop choiceFour
 
+	css .choice-container display:grid width:100% grid-template-columns:50% 50% grid-template-rows:50% 50%
+		.choice display:flex flex-direction:column justify-content:center align-items:center
+		.choice2 display:flex flex-direction:column justify-content:center align-items:center pt:10px
+		.portrait width:100px rd:10px box-shadow: 2px 2px 3px gray9
+		.choice-button font-size:10px display:block margin:auto mt:10px mb:10px
+
 	<self>
-		<img.portrait src=composers[choiceOne].image>
-		<button @click=emit("validateAnswer", choiceOne)> choiceOne
-		<br>
-		<img.portrait src=composers[choiceTwo].image>
-		<button @click=emit("validateAnswer", choiceTwo)> choiceTwo
-		<br>
-		<img.portrait src=composers[choiceThree].image>
-		<button @click=emit("validateAnswer", choiceThree)> choiceThree
-		<br>
-		<img.portrait src=composers[choiceFour].image>
-		<button @click=emit("validateAnswer", choiceFour)> choiceFour
+		<div .choice-container>
+			<div .choice>
+				<img .portrait @click=emit("validateAnswer", choiceOne) src=composers[choiceOne].image>
+				<button .choice-button @click=emit("validateAnswer", choiceOne)> choiceOne
+			<div .choice>
+				<img .portrait @click=emit("validateAnswer", choiceTwo) src=composers[choiceTwo].image>
+				<button .choice-button @click=emit("validateAnswer", choiceTwo)> choiceTwo
+			<div .choice2>
+				<img .portrait @click=emit("validateAnswer", choiceThree) src=composers[choiceThree].image>
+				<button .choice-button @click=emit("validateAnswer", choiceThree)> choiceThree
+			<div .choice2>
+				<img .portrait @click=emit("validateAnswer", choiceFour) src=composers[choiceFour].image>
+				<button .choice-button @click=emit("validateAnswer", choiceFour)> choiceFour
+tag response
+
+	prop response
+	prop responseImage
+
+	css .response-portrait width:50% rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto
+		
+	<self>
+		<p .response> response
+		<img .response-portrait src=responseImage>
 
 tag app
 
@@ -73,29 +102,44 @@ tag app
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
-	prop answered? = no
+	prop answered?
+	prop stopped?
 	
+	# called by functions
 	def playSound
 		if sound != null
 			sound.stop()
 			sound.unload()
 			sound = null
 		sound = new Howl({src: work.src});
+		stopped? = no
 		sound.play();
 
+	# called by functions
 	def stopSound
 		if sound != null
+			stopped? = yes
 			sound.stop()
+
+	# called by button click
+	def stopOrPlay
+		if stopped? === no
+			stopped? = yes
+			sound.stop()
+		else 
+			stopped? = no
+			sound = new Howl({src: work.src});
+			sound.play();
 
 	def validateAnswer answer
 		if answer.detail === work.composer
-			response = "Correct! The answer was {work.composer}."
-			responseImage = <img .portrait src=composers[work.composer].image>
+			response = "🎼 Correct! The answer was {work.composer}."
+			responseImage = composers[work.composer].image
 			answered? = yes
 			points += 1
 		else
-			response = "Incorrect! The answer was {work.composer}."
-			responseImage = <img .portrait src=composers[work.composer].image>
+			response = "🎼 Incorrect! The answer was {work.composer}."
+			responseImage = composers[work.composer].image
 			answered? = yes	
 
 	def stageAndShuffleComposers
@@ -161,38 +205,48 @@ tag app
 
 	
 	<self>
-		<div.container>
+		
 
-				<h1> "Classical Music Guessing Game"
 				if endOfGame
-					<h1> if points === 1 then "You scored {points} point!" else "You scored {points} points!"
-					<button @click=reset> "Play again"
+					<div .container>
+						<p .end-message> if points === 1 then "You scored {points} point out of {numberOfWorks}!" else "You scored {points} points out of {numberOfWorks}!"
+						<button .reset-button @click=reset> "Play again"
 				else if startOfGame
-					<img .startImage src="https://joseph.ptesquad.com/game/images/orchestra.png">
-					<p .introText> "🎼 Welcome to this classical music guessing game."
-					<p .introText> "🎼 Once you click 'Start', you'll be played various pieces of music and it's your job to answer questions about it."
-					<p .introText> "🎼 You only get one try at each answer. Best of luck."
-					<div .introButtonDiv>
-						<button @click=startGame> "Start"
-				else	
-					<h1> "Title: {work.title}"
-					# <h2> "Composer: {work.composer}"
-					<h3> "Period: {work.period}"
-					<h4> "Composed in: {work.composedIn}"
-					<button @click=nextWork> if answered? === yes then "Next" else "Skip"
-					# <button @click=playSound> "Play"
-					<button @click=stopSound> "Stop music"
-					<br>
-					<question>
-					<choices [display:none]=answered?
-						choiceOne=choiceOne 
-						choiceTwo=choiceTwo
-						choiceThree=choiceThree
-						choiceFour=choiceFour
-						@validateAnswer=validateAnswer(e)>
-					<div> response
-					<div> responseImage
-					<div> "Points: {points}"
+					<div .container>
+						<h1 .intro-h1> "Classical Music Guessing Game"
+						<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
+						<p .intro-text> "🎼 Let's test your knowledge of classical music."
+						<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked a question about each."
+						<p .intro-text> "🎼 You'll only get one try at each answer. Best of luck."
+						<div .intro-button-div>
+							<button @click=startGame> "Start"
+				else
+					<div .header>	
+						<p> "#{currentWorkIndex + 1}"
+						<p> "Points: {points}"
+					<div .container>	
+						<p .work-title> 
+							<span .bold-text> "Title: " 
+							"{work.title}"
+						# <p> "Composer: {work.composer}"
+						<p .period> 
+							<span .bold-text> "Period: " 
+							"{work.period}"
+						<p .composed-in> 
+							<span .bold-text> "Composed in: "
+							"{work.composedIn}"
+						<div .two-buttons>
+							<button @click=nextWork> if answered? === yes then "Next" else "Skip"
+							<button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
+						<question [display:none]=answered?>
+						<choices [display:none]=answered?
+							choiceOne=choiceOne 
+							choiceTwo=choiceTwo
+							choiceThree=choiceThree
+							choiceFour=choiceFour
+							@validateAnswer=validateAnswer(e)>
+						if answered?===yes
+							<response response=response responseImage=responseImage>			
 				<game-footer>
 
 imba.mount <app>
