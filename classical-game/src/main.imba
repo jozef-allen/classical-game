@@ -2,13 +2,15 @@ import {Howl} from 'howler'
 import {works} from "./works.imba"
 import {composers} from "./composers.imba"
 import {periods} from "./periods.imba"
+import {forms} from "./forms.imba"
+import {instrumentations} from "./instrumentations.imba"
 
 global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.75rem
 	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease margin-right:10px
 	.container width:90% display:block margin-left:auto margin-right:auto
 	.intro-h1 font-size:1.5rem @768:2rem @1024:2.5rem text-align:center
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
-	.intro-text text-align:center
+	.intro-text text-align:center width:60% margin-left:auto margin-right:auto
 	.intro-button-div display:flex justify-content:center p:1rem
 	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem @1024:2rem pr:1rem @1024:2rem font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold rd:10px
 	.work-title font-size:1rem @768:1.5rem @1024:1.75rem text-align:center pt:.5rem
@@ -22,10 +24,19 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 
 tag question
 
-	css p font-size:1.5rem @768:2rem @1024:2.5rem text-align:center pt:.5rem @1024:0 margin-top:30px margin-bottom:30px
+	prop stage
+
+	css p font-size:1.5rem @768:2rem @1024:2.5rem text-align:center pt:.5rem @1024:0 margin-top:30px margin-bottom:30px @1024:50px
 
 	<self>
-		<p> "🎼 Who is the composer of this piece?"
+		if stage === "composers" 
+			<p> "🎼 Who is the composer of this piece?"
+		else if stage === "periods"
+			<p> "🎼 During which period was this piece written?"
+		else if stage === "forms"
+			<p> "🎼 What form is this piece?"
+		else if stage === "instrumentations"
+			<p> "🎼 What instrumentation is this piece for?"
 
 tag game-footer
 
@@ -52,9 +63,9 @@ tag choices
 
 	css .choice-container display:grid width:100% grid-template-columns:50% 50% @1024:25% 25% 25% 25% grid-template-rows:50% 50% @1024:100%
 		.choice display:flex flex-direction:column justify-content:flex-start align-items:center
-		.choice2 display:flex flex-direction:column justify-content:flex-start align-items:center pt:10px @1024:0px
+		.choice2 display:flex flex-direction:column justify-content:flex-start align-items:center pt:20px @1024:0px
 		.portrait width:100px @768:190px rd:10px box-shadow: 2px 2px 3px gray9
-		.choice-button font-size:.65rem @768:.95rem @1024:1.2rem display:block margin:auto mt:10px mb:10px
+		.choice-button font-size:.65rem @768:.95rem @1024:1.2rem display:block margin:auto mt:15px mb:10px
 
 
 	<self>
@@ -105,6 +116,8 @@ tag app
 	prop arrayOfX
 	prop arrayOfComposers
 	prop arrayOfPeriods
+	prop arrayOfForms
+	prop arrayOfInstrumentations
 	
 	# handling choices
 	prop choiceOne
@@ -153,6 +166,10 @@ tag app
 				responseImage = composers[answerSheet].image
 			else if stage === "periods"
 				responseImage = periods[answerSheet].image
+			else if stage === "forms"
+				responseImage = forms[answerSheet].image
+			else if stage === "instrumentations"
+				responseImage = instrumentations[answerSheet].image
 			answered? = yes
 			points += 1
 		else
@@ -161,6 +178,10 @@ tag app
 				responseImage = composers[answerSheet].image
 			else if stage === "periods"
 				responseImage = periods[answerSheet].image
+			else if stage === "forms"
+				responseImage = forms[answerSheet].image
+			else if stage === "instrumentations"
+				responseImage = instrumentations[answerSheet].image
 			answered? = yes	
 
 	def stageAndShuffle input, value
@@ -199,6 +220,20 @@ tag app
 		answered? = no			
 		stageAndShuffle(periods, work.period)
 		populatePeriods()
+
+	def nextForm
+		stage = "forms"
+		arrayOfForms = []
+		answered? = no			
+		stageAndShuffle(forms, work.form)
+		populateForms()
+
+	def nextInstrumentation
+		stage = "instrumentations"
+		arrayOfInstrumentations = []
+		answered? = no			
+		stageAndShuffle(instrumentations, work.instrumentation)
+		populateInstrumentations()
 	
 	def shuffleArray array
 		for i in [array.length - 1...0] by -1
@@ -230,6 +265,28 @@ tag app
 		choiceFourImage = periods[choiceFour].image
 		answerSheet = work.period
 
+	def populateForms
+		choiceOne = arrayOfX[0]
+		choiceTwo = arrayOfX[1]
+		choiceThree = arrayOfX[2]
+		choiceFour = arrayOfX[3]
+		choiceOneImage = forms[choiceOne].image
+		choiceTwoImage = forms[choiceTwo].image
+		choiceThreeImage = forms[choiceThree].image
+		choiceFourImage = forms[choiceFour].image
+		answerSheet = work.form
+
+	def populateInstrumentations
+		choiceOne = arrayOfX[0]
+		choiceTwo = arrayOfX[1]
+		choiceThree = arrayOfX[2]
+		choiceFour = arrayOfX[3]
+		choiceOneImage = instrumentations[choiceOne].image
+		choiceTwoImage = instrumentations[choiceTwo].image
+		choiceThreeImage = instrumentations[choiceThree].image
+		choiceFourImage = instrumentations[choiceFour].image
+		answerSheet = work.instrumentation
+
 	def setup
 		for i in [0...numberOfWorks]
 			arrayOfNumbers.push(i)
@@ -256,15 +313,15 @@ tag app
 			<div .header>
 				<p> "End of game"
 				<p> "Points: {points}"
-			<p .end-message> if points === 1 then "You scored {points} point out of {numberOfWorks}!" else "You scored {points} points out of {numberOfWorks}!"
+			<p .end-message> if points === 1 then "You scored {points} point out of {numberOfWorks*4}!" else "You scored {points} points out of {numberOfWorks*4}!"
 			<button .reset-button @click=reset> "Play again"
 		else if startOfGame
 			<div .container>
 				<h1 .intro-h1> "Classical Music Guessing Game"
 				<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
-				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked a question about each."
-				<p .intro-text> "🎼 You'll only get one try at each answer. Best of luck."
+				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about it."
+				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you might as well guess). Best of luck."
 				<div .intro-button-div>
 					<button @click=startGame> "Start"
 		else
@@ -276,10 +333,17 @@ tag app
 					<span .bold-text> "Title: " 
 					"{work.title}"
 				<div .two-buttons>
-					if stage === "composers"
-						<button @click=nextPeriod> "Next"
+					if stage === "instrumentations"
+						<button @click=nextComposer> "Progress"
+					else if stage === "composers"
+						<button @click=nextPeriod> "Next question"
+					else if stage === "periods"
+						<button @click=nextForm> "Next question"
+					else if stage === "forms"
+						<button @click=nextInstrumentation> "Next question"
 					<button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
-				<question [display:none]=answered?>
+				<question [display:none]=answered?
+					stage=stage>
 				<choices [display:none]=answered?
 					choiceOne=choiceOne 
 					choiceTwo=choiceTwo
