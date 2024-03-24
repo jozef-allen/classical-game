@@ -6,7 +6,7 @@ import {forms} from "./forms.imba"
 import {instrumentations} from "./instrumentations.imba"
 
 global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.75rem
-	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease margin-right:10px
+	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease
 	.container width:90% display:block margin-left:auto margin-right:auto
 	.intro-h1 font-size:1.5rem @768:2rem @1024:2.5rem text-align:center
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
@@ -157,6 +157,9 @@ tag app
 			stopped? = no
 			sound = new Howl({src: work.src})
 			sound.play()
+
+	def playFromBeginning
+		playSound()
 
 	def validateAnswer answer
 		console.log answerSheet
@@ -320,7 +323,7 @@ tag app
 				<h1 .intro-h1> "Classical Music Guessing Game"
 				<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
-				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about it."
+				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
 				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you might as well guess). Best of luck."
 				<div .intro-button-div>
 					<button @click=startGame> "Start"
@@ -341,7 +344,8 @@ tag app
 						<button @click=nextForm> "Next question"
 					else if stage === "forms"
 						<button @click=nextInstrumentation> "Next question"
-					<button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
+					# <button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
+					<button @click=playFromBeginning [ml:10px]> "Play piece from start again"
 				<question [display:none]=answered?
 					stage=stage>
 				<choices [display:none]=answered?

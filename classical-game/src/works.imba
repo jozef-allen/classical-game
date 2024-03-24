@@ -10,7 +10,7 @@ export const works = {
 	instrumentation: "Orchestra",
 	recordedIn: "1936",
 	recordedBy: "Rytmi-Pojat",
-	src: "{baseUrl}blue-danube.mp3"
+	src: "{baseUrl}the-blue-danube.mp3"
 	},
 	1: {
 	title: "Winter from The Four Seasons",
@@ -32,7 +32,7 @@ export const works = {
 	instrumentation: "String orchestra",
 	recordedIn: "1936",
 	recordedBy: "The Vienna Philharmonic Orchestra",
-	src: "{baseUrl}first-movement-eine-kleine-nachtmusik.mp3"
+	src: "{baseUrl}the-first-movement-eine-kleine-nachtmusik.mp3"
 	},
 	3: {
 	title: "Für Elise",
