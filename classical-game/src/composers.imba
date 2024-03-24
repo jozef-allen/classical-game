@@ -1,4 +1,4 @@
-const baseUrl = "https://joseph.ptesquad.com/game/images/"
+const baseUrl = "https://joseph.ptesquad.com/game/images/composers/"
 
 export const composers = {
 	"Johann Strauss II": {

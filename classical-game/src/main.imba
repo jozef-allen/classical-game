@@ -1,6 +1,7 @@
 import {Howl} from 'howler'
 import {works} from "./works.imba"
 import {composers} from "./composers.imba"
+import {periods} from "./periods.imba"
 
 global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.75rem
 	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease margin-right:10px
@@ -9,10 +10,10 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
 	.intro-text text-align:center
 	.intro-button-div display:flex justify-content:center p:1rem
-	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem pr:1rem font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold rd:10px
-	.work-title font-size:.75rem @768:1rem @1024:1.25rem text-align:center pt:.5rem
-	.period font-size:.75rem @768:1rem @1024:1.25rem text-align:center
-	.composed-in font-size:.75rem @768:1rem @1024:1.25rem text-align:center
+	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem @1024:2rem pr:1rem @1024:2rem font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold rd:10px
+	.work-title font-size:1rem @768:1.5rem @1024:1.75rem text-align:center pt:.5rem
+	# .period font-size:.75rem @768:1rem @1024:1.25rem text-align:center
+	# .composed-in font-size:.75rem @768:1rem @1024:1.25rem text-align:center
 	.two-buttons display:flex justify-content:center align-items:center pt:.5rem
 	.bold-text font-weight:bold
 	.response font-size:1.5rem @768:2rem @1024:2.5rem text-align:center pt:.5rem @1024:0 margin-top:30px margin-bottom:30px
@@ -43,6 +44,11 @@ tag choices
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
+	prop choiceOneImage
+	prop choiceTwoImage
+	prop choiceThreeImage
+	prop choiceFourImage
+	prop answerSheet
 
 	css .choice-container display:grid width:100% grid-template-columns:50% 50% @1024:25% 25% 25% 25% grid-template-rows:50% 50% @1024:100%
 		.choice display:flex flex-direction:column justify-content:flex-start align-items:center
@@ -54,16 +60,16 @@ tag choices
 	<self>
 		<div .choice-container>
 			<div .choice>
-				<img .portrait @click=emit("validateAnswer", choiceOne) src=composers[choiceOne].image>
+				<img .portrait @click=emit("validateAnswer", choiceOne) src=choiceOneImage>
 				<button .choice-button @click=emit("validateAnswer", choiceOne)> choiceOne
 			<div .choice>
-				<img .portrait @click=emit("validateAnswer", choiceTwo) src=composers[choiceTwo].image>
+				<img .portrait @click=emit("validateAnswer", choiceTwo) src=choiceTwoImage>
 				<button .choice-button @click=emit("validateAnswer", choiceTwo)> choiceTwo
 			<div .choice2>
-				<img .portrait @click=emit("validateAnswer", choiceThree) src=composers[choiceThree].image>
+				<img .portrait @click=emit("validateAnswer", choiceThree) src=choiceThreeImage>
 				<button .choice-button @click=emit("validateAnswer", choiceThree)> choiceThree
 			<div .choice2>
-				<img .portrait @click=emit("validateAnswer", choiceFour) src=composers[choiceFour].image>
+				<img .portrait @click=emit("validateAnswer", choiceFour) src=choiceFourImage>
 				<button .choice-button @click=emit("validateAnswer", choiceFour)> choiceFour
 tag response
 
@@ -83,25 +89,33 @@ tag app
 	prop howl
 	prop startOfGame = yes
 	prop endOfGame = no
+	prop stage
 	prop response = null
 	prop responseImage = null
 	prop points = 0
 
 	# handling works
-	prop numberOfWorks = Object.keys(works).length;
+	prop numberOfWorks = Object.keys(works).length
 	prop arrayOfNumbers = []
 	prop shuffledArrayOfNumbers = []
 	prop currentWorkIndex = -1
 
 	# handling composers
-	prop numberOfComposers = Object.keys(composers).length;
-	prop arrayOfComposers = []
+	prop numberOfComposers = Object.keys(composers).length
+	prop arrayOfX
+	prop arrayOfComposers
+	prop arrayOfPeriods
 	
 	# handling choices
 	prop choiceOne
 	prop choiceTwo
 	prop choiceThree
 	prop choiceFour
+	prop choiceOneImage
+	prop choiceTwoImage
+	prop choiceThreeImage
+	prop choiceFourImage
+	prop answerSheet
 	prop answered?
 	prop stopped?
 	
@@ -111,7 +125,7 @@ tag app
 			sound.stop()
 			sound.unload()
 			sound = null
-		sound = new Howl({src: work.src});
+		sound = new Howl({src: work.src})
 		stopped? = no
 		sound.play();
 
@@ -128,46 +142,63 @@ tag app
 			sound.stop()
 		else 
 			stopped? = no
-			sound = new Howl({src: work.src});
-			sound.play();
+			sound = new Howl({src: work.src})
+			sound.play()
 
 	def validateAnswer answer
-		if answer.detail === work.composer
-			response = "🎼 Correct! The answer was {work.composer}."
-			responseImage = composers[work.composer].image
+		console.log answerSheet
+		if answer.detail === answerSheet
+			response = "🎼 Correct! The answer is {answerSheet}."
+			if stage === "composers"
+				responseImage = composers[answerSheet].image
+			else if stage === "periods"
+				responseImage = periods[answerSheet].image
 			answered? = yes
 			points += 1
 		else
-			response = "🎼 Incorrect! The answer was {work.composer}."
-			responseImage = composers[work.composer].image
+			response = "🎼 Incorrect! The answer is {answerSheet}."
+			if stage === "composers"
+				responseImage = composers[answerSheet].image
+			else if stage === "periods"
+				responseImage = periods[answerSheet].image
 			answered? = yes	
 
-	def stageAndShuffleComposers
+	def stageAndShuffle input, value
 		const auxiliaryArray = []
-		for composer in Object.keys(composers)
-			auxiliaryArray.push(composer)
-		let indexOfCurrentComposer = auxiliaryArray.indexOf(work.composer)
-		if indexOfCurrentComposer != -1
-			auxiliaryArray.splice(indexOfCurrentComposer, 1)
+		for object in Object.keys(input)
+			auxiliaryArray.push(object)
+		let indexOfCurrentX = auxiliaryArray.indexOf(value)
+		if indexOfCurrentX != -1
+			auxiliaryArray.splice(indexOfCurrentX, 1)
 		shuffleArray(auxiliaryArray)
-		arrayOfComposers = auxiliaryArray.slice(0, 3)
-		arrayOfComposers.push(work.composer)
-		shuffleArray(arrayOfComposers)
+		arrayOfX = auxiliaryArray.slice(0, 3)
+		arrayOfX.push(value)
+		shuffleArray(arrayOfX)
 
-	def nextWork
+	def nextQuestion
+		response = null
+		responseImage = null
+
+	def nextComposer
 		stopSound()
 		currentWorkIndex += 1
+		stage = "composers"
 		if currentWorkIndex >= numberOfWorks
 			endOfGame = yes
 		else
-			arrayOfComposers = []
-			response = null
-			responseImage = null
-			answered? = no
 			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
-			stageAndShuffleComposers()
-			populateChoices()
+			arrayOfComposers = []
+			answered? = no			
+			stageAndShuffle(composers, work.composer)
+			populateComposers()
 			playSound()
+
+	def nextPeriod
+		stage = "periods"
+		arrayOfPeriods = []
+		answered? = no			
+		stageAndShuffle(periods, work.period)
+		populatePeriods()
 	
 	def shuffleArray array
 		for i in [array.length - 1...0] by -1
@@ -177,11 +208,27 @@ tag app
 			array[j] = temp
 		array
 
-	def populateChoices
-		choiceOne = arrayOfComposers[0]
-		choiceTwo = arrayOfComposers[1]
-		choiceThree = arrayOfComposers[2]
-		choiceFour = arrayOfComposers[3]
+	def populateComposers
+		choiceOne = arrayOfX[0]
+		choiceTwo = arrayOfX[1]
+		choiceThree = arrayOfX[2]
+		choiceFour = arrayOfX[3]
+		choiceOneImage = composers[choiceOne].image
+		choiceTwoImage = composers[choiceTwo].image
+		choiceThreeImage = composers[choiceThree].image
+		choiceFourImage = composers[choiceFour].image
+		answerSheet = work.composer
+
+	def populatePeriods
+		choiceOne = arrayOfX[0]
+		choiceTwo = arrayOfX[1]
+		choiceThree = arrayOfX[2]
+		choiceFour = arrayOfX[3]
+		choiceOneImage = periods[choiceOne].image
+		choiceTwoImage = periods[choiceTwo].image
+		choiceThreeImage = periods[choiceThree].image
+		choiceFourImage = periods[choiceFour].image
+		answerSheet = work.period
 
 	def setup
 		for i in [0...numberOfWorks]
@@ -190,7 +237,7 @@ tag app
 
 	def startGame
 		startOfGame = no
-		nextWork()
+		nextComposer()
 
 	def reset
 		arrayOfNumbers = []
@@ -228,15 +275,9 @@ tag app
 				<p .work-title> 
 					<span .bold-text> "Title: " 
 					"{work.title}"
-				# <p> "Composer: {work.composer}"
-				<p .period> 
-					<span .bold-text> "Period: " 
-					"{work.period}"
-				<p .composed-in> 
-					<span .bold-text> "Composed in: "
-					"{work.composedIn}"
 				<div .two-buttons>
-					<button @click=nextWork> if answered? === yes then "Next" else "Skip"
+					if stage === "composers"
+						<button @click=nextPeriod> "Next"
 					<button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
 				<question [display:none]=answered?>
 				<choices [display:none]=answered?
@@ -244,6 +285,11 @@ tag app
 					choiceTwo=choiceTwo
 					choiceThree=choiceThree
 					choiceFour=choiceFour
+					choiceOneImage=choiceOneImage
+					choiceTwoImage=choiceTwoImage
+					choiceThreeImage=choiceThreeImage
+					choiceFourImage=choiceFourImage
+					answerSheet=answerSheet
 					@validateAnswer=validateAnswer(e)>
 				if answered?===yes
 					<response response=response responseImage=responseImage>			
