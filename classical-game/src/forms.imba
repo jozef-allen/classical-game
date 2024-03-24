@@ -13,11 +13,20 @@ export const forms = {
 	"Bagatelle": {
 		image: "{baseUrl}bagatelle.png"
 	},
-	"Toccata/fugue": {
+	"Toccata and fugue": {
 		image: "{baseUrl}toccata-fugue.png"
 	},
 	"Strophic": {
 		image: "{baseUrl}strophic.png"
+	},
+	"Tone poem": {
+		image: "{baseUrl}tone-poem.png"
+	},
+	"Theme and variations": {
+		image: "{baseUrl}theme-and-variations.png"
+	},
+	"Mass": {
+		image: "{baseUrl}mass.png"
 	}
 }
 

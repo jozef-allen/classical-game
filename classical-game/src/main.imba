@@ -337,15 +337,15 @@ tag app
 					"{work.title}"
 				<div .two-buttons>
 					if stage === "instrumentations"
-						<button @click=nextComposer> "Progress"
+						<button @click=nextComposer> "Next"
 					else if stage === "composers"
-						<button @click=nextPeriod> "Next question"
+						<button @click=nextPeriod> "Next"
 					else if stage === "periods"
-						<button @click=nextForm> "Next question"
+						<button @click=nextForm> "Next"
 					else if stage === "forms"
-						<button @click=nextInstrumentation> "Next question"
+						<button @click=nextInstrumentation> "Next"
 					# <button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
-					<button @click=playFromBeginning [ml:10px]> "Play piece from start again"
+					<button @click=playFromBeginning [ml:10px]> "Restart playback"
 				<question [display:none]=answered?
 					stage=stage>
 				<choices [display:none]=answered?
