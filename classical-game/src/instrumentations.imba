@@ -19,5 +19,8 @@ export const instrumentations = {
 	"Voice": {
 		image: "{baseUrl}voice.png"
 	},
+	"Voice and piano": {
+		image: "{baseUrl}voice-and-piano.png"
+	},
 }
 

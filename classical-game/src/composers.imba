@@ -17,7 +17,7 @@ export const composers = {
 		image: "{baseUrl}johann-sebastian-bach.png"
 	},
 	"John Dowland": {
-		image: "{baseUrl}john-dowland.jpg"
+		image: "{baseUrl}john-dowland.png"
 	},
 	"Richard Wagner": {
 		image: "{baseUrl}richard-wagner.png"
@@ -27,6 +27,9 @@ export const composers = {
 	},
 	"Guillaume de Machaut": {
 		image: "{baseUrl}guillaume-de-machaut.png"
+	},
+	"Johannes Brahms": {
+		image: "{baseUrl}johannes-brahms.png"
 	}
 }
 

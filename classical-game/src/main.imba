@@ -7,7 +7,7 @@ import {instrumentations} from "./instrumentations.imba"
 
 global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', serif font-size:1rem @768:1.5rem @1024:1.75rem
 	button font-family:'Hedvig Letters Serif' box-shadow: 2px 2px 3px gray9 font-size:1rem @768:1.5rem @1024:1.75rem bgc:yellow3 bgc@hover@1024:yellow4 color:gray9 font-weight:bold p:.5rem border:1px border-radius:5px transition: background-color 0.3s ease
-	.container min-height:95vh width:90% display:block margin-left:auto margin-right:auto margin-bottom:-50px
+	.container min-height:95vh width:90% display:block margin-left:auto margin-right:auto margin-bottom:-50px margin-top:20px
 	.intro-h1 font-size:1.5rem @768:2rem @1024:2.5rem text-align:center
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
 	.intro-text text-align:center width:60% margin-left:auto margin-right:auto
@@ -87,7 +87,7 @@ tag response
 tag app
 
 	prop work
-	prop sound
+	prop audio
 	prop howl
 	prop startOfGame = yes
 	prop endOfGame = no
@@ -122,40 +122,38 @@ tag app
 	prop answerSheet
 	prop answered?
 	prop stopped?
+	prop loaded?
 
 	prop currentYear = new Date().getFullYear()
 	
-	# called by functions
-	def playSound
-		if sound != null
-			sound.stop()
-			sound.unload()
-			sound = null
-		sound = new Howl({src: work.src})
+	def onLoad
+		loaded? = yes
+		console.log loaded?
+
+	def loadAndPlayAudio
+		if audio != null
+			audio.pause()  # Pause any currently playing audio
+			audio.src = ""  # Reset the audio source
+			audio.load()    # Reload the audio element
+		loaded? = no
+		console.log loaded?
+		audio = document.createElement('audio')  # Create a new audio element
+		audio.src = work.src
+		audio.controls = true  # Enable controls for the audio element
+		audio.addEventListener('playing', onLoad)
+		audio.play()
 		stopped? = no
-		sound.play();
 
-	# called by functions
-	def stopSound
-		if sound != null
+	def stopAudio
+		if audio != null
 			stopped? = yes
-			sound.stop()
+			audio.pause()
 
-	# called by button click
-	def stopOrPlay
-		if stopped? === no
-			stopped? = yes
-			sound.stop()
-		else 
-			stopped? = no
-			sound = new Howl({src: work.src})
-			sound.play()
-
-	def playFromBeginning
-		playSound()
+	def playAudio
+		stopped? = no
+		audio.play()
 
 	def validateAnswer answer
-		console.log answerSheet
 		if answer.detail === answerSheet
 			response = "🎼 Correct! The answer is {answerSheet}."
 			if stage === "composers"
@@ -197,7 +195,7 @@ tag app
 		responseImage = null
 
 	def nextComposer
-		stopSound()
+		stopAudio()
 		currentWorkIndex += 1
 		stage = "composers"
 		if currentWorkIndex >= numberOfWorks
@@ -208,7 +206,7 @@ tag app
 			answered? = no			
 			stageAndShuffle(composers, work.composer)
 			populateComposers()
-			playSound()
+			loadAndPlayAudio()
 
 	def nextPeriod
 		stage = "periods"
@@ -348,8 +346,10 @@ tag app
 						<button @click=nextForm> "Next"
 					else if stage === "forms"
 						<button @click=nextInstrumentation> "Next"
-					# <button @click=stopOrPlay> if stopped? === yes then "Play music" else "Stop music"
-					<button @click=playFromBeginning [ml:10px]> "Restart playback"
+					if stopped? === yes 
+						<button @click=playAudio [ml:10px]> "Play music"
+					else
+						<button @click=stopAudio [ml:10px]> "Pause music"
 				<question [display:none]=answered?
 					stage=stage>
 				<choices [display:none]=answered?

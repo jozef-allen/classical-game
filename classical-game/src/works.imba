@@ -100,5 +100,16 @@ export const works = {
 	recordedBy: "Pro Musica Antiqua Of Brussels",
 	src: "{baseUrl}kyrie-from-messe-de-nostre-dame.mp3"
 	},
+	9: {
+	title: "Lullaby",
+	composer: "Johannes Brahms",
+	period: "Romantic",
+	composedIn: "1868",
+	form: "Lied",
+	instrumentation: "Voice and piano",
+	recordedIn: "Unknown",
+	recordedBy: "Ron Meixsell",
+	src: "{baseUrl}lullaby.mp3"
+	},
 }
 

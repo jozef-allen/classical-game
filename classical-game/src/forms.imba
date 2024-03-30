@@ -27,6 +27,9 @@ export const forms = {
 	},
 	"Mass": {
 		image: "{baseUrl}mass.png"
-	}
+	},
+	"Lied": {
+		image: "{baseUrl}lied.png"
+	},
 }
 
