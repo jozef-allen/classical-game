@@ -347,9 +347,16 @@ tag app
 				<div .header>	
 					<p> "#{currentWorkIndex + 1}"
 					<p> "Points: {points}"
-				<p .work-title> 
-					<span .bold-text> "Title: " 
-					"{work.title}"
+				<p .work-title>
+					if difficulty === "easy"  
+						<span .bold-text> "Title: " 
+						"{work.title}"
+					else if answered? === yes and difficulty === "difficult" and stage === "instrumentations"
+						<span .bold-text> "Title: " 
+						<span [border-bottom: 2px solid yellow4]> "{work.title} by {work.composer}"
+					else if difficulty === "difficult"
+						<span .bold-text> "Title: " 
+						"Hidden on this mode"
 				<div .two-buttons>
 					if stage === "instrumentations"
 						<button @click=nextComposer> "Next"
@@ -376,7 +383,7 @@ tag app
 					choiceFourImage=choiceFourImage
 					answerSheet=answerSheet
 					@validateAnswer=validateAnswer(e)>
-				if answered?===yes
+				if answered? === yes
 					<response response=response responseImage=responseImage>	
 				<div .push>	
 			<footer>			

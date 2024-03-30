@@ -24,7 +24,7 @@ export const easy = {
 	src: "{baseUrl}inverno.mp3"
 	},
 	2: {
-	title: "First movement of Eine kleine Nachtmusik",
+	title: "First movement from Eine kleine Nachtmusik",
 	composer: "Wolfgang Amadeus Mozart",
 	period: "Classical",
 	composedIn: "1787",
@@ -79,7 +79,7 @@ export const easy = {
 	src: "{baseUrl}ride-of-the-valkyries.mp3"
 	},
 	7: {
-	title: "Second Movement of Surprise Symphony",
+	title: "Second Movement from the Surprise Symphony",
 	composer: "Joseph Haydn",
 	period: "Classical",
 	composedIn: "1791",

@@ -31,5 +31,11 @@ export const forms = {
 	"Lied": {
 		image: "{baseUrl}lied.png"
 	},
+	"Suite": {
+		image: "{baseUrl}suite.png"
+	},
+	"Aria": {
+		image: "{baseUrl}aria.png"
+	},
 }
 

@@ -22,5 +22,14 @@ export const instrumentations = {
 	"Voice and piano": {
 		image: "{baseUrl}voice-and-piano.png"
 	},
+	"Violin and piano": {
+		image: "{baseUrl}violin-and-piano.png"
+	},
+	"Flute and strings": {
+		image: "{baseUrl}flute-and-strings.png"
+	},
+	"Voice and orchestra": {
+		image: "{baseUrl}voice-and-orchestra.png"
+	},
 }
 

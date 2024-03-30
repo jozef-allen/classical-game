@@ -28,8 +28,17 @@ export const composers = {
 	"Guillaume de Machaut": {
 		image: "{baseUrl}guillaume-de-machaut.png"
 	},
-	"Johannes Brahms": {
-		image: "{baseUrl}johannes-brahms.png"
-	}
+	"César Franck": {
+		image: "{baseUrl}cesar-franck.png"
+	},
+	"Ottorino Respighi": {
+		image: "{baseUrl}ottorino-respighi.png"
+	},
+	"Carl Philipp Emanuel Bach": {
+		image: "{baseUrl}carl-philipp-emmanuel-bach.png"
+	},
+	"William Byrd": {
+		image: "{baseUrl}william-byrd.png"
+	},
 }
 

@@ -2,103 +2,70 @@ const baseUrl = "https://joseph.ptesquad.com/game/music/"
 
 export const difficult = {
 	0: {
-	title: "The Blue Danube",
-	composer: "Johann Strauss II",
+	title: "Fourth Movement from Sonata in A major for Violin and Piano",
+	composer: "César Franck",
 	period: "Romantic",
-	composedIn: "1866",
-	form: "Waltz",
-	instrumentation: "Orchestra",
-	recordedIn: "1936",
-	recordedBy: "Rytmi-Pojat",
-	src: "{baseUrl}the-blue-danube.mp3"
+	composedIn: "1886",
+	form: "Sonata",
+	instrumentation: "Violin and piano",
+	recordedIn: "Unknown",
+	recordedBy: "Paul Pitman, Bang-Eun Lee",
+	src: "{baseUrl}fourth-movement-of-sonata-in-a-major-for-violin-and-piano.mp3"
 	},
 	1: {
-	title: "Winter from The Four Seasons",
-	composer: "Antonio Vivaldi",
-	period: "Baroque",
-	composedIn: "1720",
-	form: "Concerto",
-	instrumentation: "String orchestra",
+	title: "First Movement from Ancient Airs and Dances, Suite No. 1",
+	composer: "Ottorino Respighi",
+	period: "20th century",
+	composedIn: "1917",
+	form: "Suite",
+	instrumentation: "Orchestra",
 	recordedIn: "Unknown",
-	recordedBy: "The Modena Chamber Orchestra",
-	src: "{baseUrl}inverno.mp3"
+	recordedBy: "United States Marine Band",
+	src: "{baseUrl}first-movement-of-ancient-airs-and-dances-suite-no-1.mp3"
 	},
 	2: {
-	title: "First movement of Eine kleine Nachtmusik",
-	composer: "Wolfgang Amadeus Mozart",
-	period: "Classical",
-	composedIn: "1787",
-	form: "Sonata",
-	instrumentation: "String orchestra",
-	recordedIn: "1936",
-	recordedBy: "The Vienna Philharmonic Orchestra",
-	src: "{baseUrl}the-first-movement-eine-kleine-nachtmusik.mp3"
-	},
-	3: {
-	title: "Für Elise",
-	composer: "Ludwig van Beethoven",
-	period: "Classical",
-	composedIn: "1810",
-	form: "Bagatelle",
-	instrumentation: "Piano",
-	recordedIn: "2006",
-	recordedBy: "Gaodifan",
-	src: "{baseUrl}fur-elise.mp3"
-	},
-	4: {
-	title: "Toccata and Fugue in D minor",
-	composer: "Johann Sebastian Bach",
-	period: "Baroque",
-	composedIn: "Unknown",
-	form: "Toccata and fugue",
-	instrumentation: "Organ",
-	recordedIn: "2006",
-	recordedBy: "Ashtar Moïra",
-	src: "{baseUrl}toccata-and-fugue.mp3"
-	},
-	5: {
-	title: "Come Again",
-	composer: "John Dowland",
+	title: "Gloria in Excelsis from Mass for Five Voices",
+	composer: "William Byrd",
 	period: "Renaissance",
-	composedIn: "1597",
-	form: "Strophic",
-	instrumentation: "Voice and lute",
-	recordedIn: "2005",
-	recordedBy: "Jeni Melia and Chris Goodwin",
-	src: "{baseUrl}come-again.mp3"
-	},
-	6: {
-	title: "Ride of the Valkyries",
-	composer: "Richard Wagner",
-	period: "Romantic",
-	composedIn: "1856",
-	form: "Tone poem",
-	instrumentation: "Orchestra",
-	recordedIn: "1921",
-	recordedBy: "American Symphony Orchestra",
-	src: "{baseUrl}ride-of-the-valkyries.mp3"
-	},
-	7: {
-	title: "Second Movement of Surprise Symphony",
-	composer: "Joseph Haydn",
-	period: "Classical",
-	composedIn: "1791",
-	form: "Theme and variations",
-	instrumentation: "Orchestra",
-	recordedIn: "Unknown",
-	recordedBy: "European Archive",
-	src: "{baseUrl}the-second-movement-surprise-symphony.mp3"
-	},
-	8: {
-	title: "Kyrie from Messe de Nostre Dame",
-	composer: "Guillaume de Machaut",
-	period: "Medieval",
-	composedIn: "Unknown",
+	composedIn: "1594",
 	form: "Mass",
 	instrumentation: "Voice",
-	recordedIn: "1956",
-	recordedBy: "Pro Musica Antiqua Of Brussels",
-	src: "{baseUrl}kyrie-from-messe-de-nostre-dame.mp3"
-	}
+	recordedIn: "Unknown",
+	recordedBy: "European Archive",
+	src: "{baseUrl}gloria-in-excelsis-from-mass-for-five-voices.mp3"
+	},
+	3: {
+	title: "Second Movement from Concerto in G",
+	composer: "Carl Philipp Emanuel Bach",
+	period: "Classical",
+	composedIn: "1755",
+	form: "Concerto",
+	instrumentation: "Flute and strings",
+	recordedIn: "Unknown",
+	recordedBy: "European Archive",
+	src: "{baseUrl}second-movement-of-concerto-in-g.mp3"
+	},
+	4: {
+	title: "Credo from Theresienmesse",
+	composer: "Joseph Haydn",
+	period: "Classical",
+	composedIn: "1799",
+	form: "Mass",
+	instrumentation: "Voice and orchestra",
+	recordedIn: "Unknown",
+	recordedBy: "European Archive",
+	src: "{baseUrl}credo-from-theresienmesse.mp3"
+	},
+	5: {
+	title: "Aria No. 11 from Bastien und Bastienne",
+	composer: "Wolfgang Amadeus Mozart",
+	period: "Classical",
+	composedIn: "1768",
+	form: "Aria",
+	instrumentation: "Voice and orchestra",
+	recordedIn: "Unknown",
+	recordedBy: "European Archive",
+	src: "{baseUrl}aria-no-11-from-bastien-und-bastienne.mp3"
+	},
 }
 
