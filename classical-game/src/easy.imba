@@ -1,6 +1,6 @@
 const baseUrl = "https://joseph.ptesquad.com/game/music/"
 
-export const works = {
+export const easy = {
 	0: {
 	title: "The Blue Danube",
 	composer: "Johann Strauss II",
@@ -110,6 +110,6 @@ export const works = {
 	recordedIn: "Unknown",
 	recordedBy: "Ron Meixsell",
 	src: "{baseUrl}lullaby.mp3"
-	},
+	}
 }
 

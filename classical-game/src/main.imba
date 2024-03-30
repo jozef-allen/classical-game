@@ -1,5 +1,5 @@
-import {Howl} from 'howler'
-import {works} from "./works.imba"
+import {easy as easyWorks} from "./easy.imba"
+import {difficult as difficultWorks} from "./difficult.imba"
 import {composers} from "./composers.imba"
 import {periods} from "./periods.imba"
 import {forms} from "./forms.imba"
@@ -11,7 +11,11 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.intro-h1 font-size:1.5rem @768:2rem @1024:2.5rem text-align:center
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
 	.intro-text text-align:center width:60% margin-left:auto margin-right:auto
-	.intro-button-div display:flex justify-content:center p:1rem pb:4rem
+	.intro-button-div display:flex justify-content:center p:1rem pb:4rem pt:2rem
+	.intro-button-div button display:flex justify-content:center p:1.25rem
+	.select-div display:flex justify-content:center p:1rem pb:1rem flex-direction:column text-align:center
+	.select-div p font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold
+	select mt:1rem font-family:'Hedvig Letters Serif', serif font-size:.85rem @768:1.1rem @1024:1.35rem width:30% display:block margin-left:auto margin-right:auto
 	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem @1024:2rem pr:1rem @1024:2rem font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold rd:10px
 	.work-title font-size:1rem @768:1.5rem @1024:1.75rem text-align:center pt:.5rem
 	# .period font-size:.75rem @768:1rem @1024:1.25rem text-align:center
@@ -88,7 +92,7 @@ tag app
 
 	prop work
 	prop audio
-	prop howl
+	prop difficulty = "easy"
 	prop startOfGame = yes
 	prop endOfGame = no
 	prop stage
@@ -97,7 +101,7 @@ tag app
 	prop points = 0
 
 	# handling works
-	prop numberOfWorks = Object.keys(works).length
+	prop numberOfWorks
 	prop arrayOfNumbers = []
 	prop shuffledArrayOfNumbers = []
 	prop currentWorkIndex = -1
@@ -124,11 +128,11 @@ tag app
 	prop stopped?
 	prop loaded?
 
+
 	prop currentYear = new Date().getFullYear()
 	
 	def onLoad
 		loaded? = yes
-		console.log loaded?
 
 	def loadAndPlayAudio
 		if audio != null
@@ -136,7 +140,6 @@ tag app
 			audio.src = ""  # Reset the audio source
 			audio.load()    # Reload the audio element
 		loaded? = no
-		console.log loaded?
 		audio = document.createElement('audio')  # Create a new audio element
 		audio.src = work.src
 		audio.controls = true  # Enable controls for the audio element
@@ -201,9 +204,12 @@ tag app
 		if currentWorkIndex >= numberOfWorks
 			endOfGame = yes
 		else
-			work = works[shuffledArrayOfNumbers[currentWorkIndex]]
+			if difficulty === "easy"
+				work = easyWorks[shuffledArrayOfNumbers[currentWorkIndex]]
+			else 
+				work = difficultWorks[shuffledArrayOfNumbers[currentWorkIndex]]
 			arrayOfComposers = []
-			answered? = no			
+			answered? = no		
 			stageAndShuffle(composers, work.composer)
 			populateComposers()
 			loadAndPlayAudio()
@@ -281,13 +287,15 @@ tag app
 		choiceFourImage = instrumentations[choiceFour].image
 		answerSheet = work.instrumentation
 
-	def setup
+	def startGame
+		startOfGame = no
+		if difficulty === "easy"
+			numberOfWorks = Object.keys(easyWorks).length
+		else
+			numberOfWorks = Object.keys(difficultWorks).length
 		for i in [0...numberOfWorks]
 			arrayOfNumbers.push(i)
 		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
-
-	def startGame
-		startOfGame = no
 		nextComposer()
 
 	def reset
@@ -322,8 +330,13 @@ tag app
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
 				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
 				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you might as well guess). Best of luck."
-				<div .intro-button-div>
-					<button @click=startGame> "Start"
+				<div .select-div>
+					<h5> "Select difficulty"
+						<select title="difficulty" bind=difficulty>
+							<option value="easy"> "Easy"
+							<option value="difficult"> "Difficult"
+						<div .intro-button-div>
+							<button @click=startGame> "Start"
 				<div .push>	
 			<footer>
 				"By "
