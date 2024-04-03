@@ -107,7 +107,6 @@ tag app
 	prop currentWorkIndex = -1
 
 	# handling composers
-	prop numberOfComposers = Object.keys(composers).length
 	prop arrayOfX
 	prop arrayOfComposers
 	prop arrayOfPeriods
@@ -136,13 +135,13 @@ tag app
 
 	def loadAndPlayAudio
 		if audio != null
-			audio.pause()  # Pause any currently playing audio
-			audio.src = ""  # Reset the audio source
-			audio.load()    # Reload the audio element
+			audio.pause() 
+			audio.src = "" 
+			audio.load() 
 		loaded? = no
-		audio = document.createElement('audio')  # Create a new audio element
+		audio = document.createElement('audio')
 		audio.src = work.src
-		audio.controls = true  # Enable controls for the audio element
+		audio.controls = true
 		audio.addEventListener('playing', onLoad)
 		audio.play()
 		stopped? = no
@@ -329,12 +328,12 @@ tag app
 				<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
 				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
-				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you might as well guess). Best of luck."
+				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you may as well guess). Best of luck."
 				<div .select-div>
 					<h5> "Select difficulty"
 						<select title="difficulty" bind=difficulty>
 							<option value="easy"> "Easy"
-							<option value="difficult"> "Difficult"
+							<option value="difficult"> "Less easy"
 						<div .intro-button-div>
 							<button @click=startGame> "Start"
 				<div .push>	
@@ -390,7 +389,5 @@ tag app
 				"By "
 				<a href="https://joseph.ptesquad.com/"> "Joe Allen" 
 				" © {currentYear}"
-
-		
 
 imba.mount <app>

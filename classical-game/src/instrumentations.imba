@@ -31,5 +31,8 @@ export const instrumentations = {
 	"Voice and orchestra": {
 		image: "{baseUrl}voice-and-orchestra.png"
 	},
+	"Military band": {
+		image: "{baseUrl}military-band.png"
+	},
 }
 

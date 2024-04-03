@@ -40,5 +40,14 @@ export const composers = {
 	"William Byrd": {
 		image: "{baseUrl}william-byrd.png"
 	},
+	"Johannes Brahms": {
+		image: "{baseUrl}johannes-brahms.png"
+	},
+	"Pyotr Tchaikovsky": {
+		image: "{baseUrl}pyotr-tchaikovsky.png"
+	},
+	"George Frideric Handel": {
+		image: "{baseUrl}george-frideric-handel.png"
+	}
 }
 

@@ -57,15 +57,15 @@ export const easy = {
 	src: "{baseUrl}toccata-and-fugue.mp3"
 	},
 	5: {
-	title: "Come Again",
-	composer: "John Dowland",
-	period: "Renaissance",
-	composedIn: "1597",
-	form: "Strophic",
-	instrumentation: "Voice and lute",
-	recordedIn: "2005",
-	recordedBy: "Jeni Melia and Chris Goodwin",
-	src: "{baseUrl}come-again.mp3"
+	title: "Jesu, Joy of Man's Desiring",
+	composer: "Johann Sebastian Bach",
+	period: "Baroque",
+	composedIn: "1723",
+	form: "Chorale",
+	instrumentation: "Voice and orchestra",
+	recordedIn: "Unknown",
+	recordedBy: "Orchestra Gli Armonici",
+	src: "{baseUrl}jesu-joy-of-mans-desiring.mp3"
 	},
 	6: {
 	title: "Ride of the Valkyries",

@@ -37,5 +37,17 @@ export const forms = {
 	"Aria": {
 		image: "{baseUrl}aria.png"
 	},
+	"March": {
+		image: "{baseUrl}march.png"
+	},
+	"Scherzo": {
+		image: "{baseUrl}scherzo.png"
+	},
+	"Chorale": {
+		image: "{baseUrl}chorale.png"
+	},
+	"Concerto grosso": {
+		image: "{baseUrl}concerto-grosso.png"
+	},
 }
 
