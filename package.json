@@ -1,18 +1,11 @@
 {
   "name": "classical-game",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "imba -w index.html",
+    "build": "imba build index.html",
+    "preview": "npx vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "imba": "^2.0.0-alpha.235"
-  },
-  "dependencies": {
-    "howler": "^2.2.4"
   }
 }
