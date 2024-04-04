@@ -328,7 +328,7 @@ tag app
 				" © {currentYear}"
 		else if startOfGame
 			<div .container>
-				<h1 .intro-h1> "Classical Music Guessing Game"
+				<h1 .intro-h1> "Classical Music Quiz"
 				<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
 				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
