@@ -323,9 +323,9 @@ tag app
 				<button .reset-button @click=reset> "Play again"
 				<div .push>
 			<footer>
-				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
-				" © {currentYear}"
+				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
+				" - {currentYear} © Built in " 
+				<a target="_blank" href="https://imba.io/"> "Imba"
 		else if startOfGame
 			<div .container>
 				<h1 .intro-h1> "Classical Music Quiz"
@@ -342,9 +342,9 @@ tag app
 							<button @click=startGame> "Start"
 				<div .push>	
 			<footer>
-				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
-				" © {currentYear}"
+				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
+				" - {currentYear} © Built in " 
+				<a target="_blank" href="https://imba.io/"> "Imba"
 		else
 			<div .container>	
 				<div .header>	
@@ -389,9 +389,9 @@ tag app
 				if answered? === yes
 					<response response=response responseImage=responseImage>	
 				<div .push>	
-			<footer>			
-				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
-				" © {currentYear}"
+			<footer>
+				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
+				" - {currentYear} © Built in " 
+				<a target="_blank" href="https://imba.io/"> "Imba"
 
 imba.mount <app>
