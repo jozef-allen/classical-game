@@ -348,7 +348,7 @@ tag app
 		else
 			<div .container>	
 				<div .header>	
-					<p> "#{currentWorkIndex + 1}"
+					<p> "#{currentWorkIndex + 1} / {numberOfWorks}"
 					<p> "Points: {points}"
 				<p .work-title>
 					if difficulty === "easy"  
