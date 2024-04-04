@@ -324,7 +324,7 @@ tag app
 				<div .push>
 			<footer>
 				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joe Allen" 
+				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
 				" © {currentYear}"
 		else if startOfGame
 			<div .container>
@@ -343,7 +343,7 @@ tag app
 				<div .push>	
 			<footer>
 				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joe Allen" 
+				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
 				" © {currentYear}"
 		else
 			<div .container>	
@@ -391,7 +391,7 @@ tag app
 				<div .push>	
 			<footer>			
 				"By "
-				<a href="https://joseph.ptesquad.com/"> "Joe Allen" 
+				<a href="https://joseph.ptesquad.com/"> "Joseph Allen" 
 				" © {currentYear}"
 
 imba.mount <app>
