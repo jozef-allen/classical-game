@@ -60,7 +60,7 @@ tag choices
 		.choice display:flex flex-direction:column justify-content:flex-start align-items:center
 		.choice2 display:flex flex-direction:column justify-content:flex-start align-items:center pt:20px @1024:0px
 		.portrait width:100px @768:190px rd:10px box-shadow: 2px 2px 3px gray9
-		.choice-button font-size:.65rem @768:.95rem @1024:1.2rem display:block margin:auto mt:15px mb:10px
+		.choice-button font-size:.75rem @768:1rem @1024:1.2rem display:block margin:auto mt:15px mb:10px
 
 
 	<self>
