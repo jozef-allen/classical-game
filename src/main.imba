@@ -26,7 +26,7 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.end-message font-size:1.5rem @768:2rem @1024:2.5rem text-align:center pt:.5rem
 	.reset-button display:block margin:auto
 	.push height:50px
-	footer text-align:center font-size:.7rem @768:.85rem @1024:1rem height:50px
+	footer text-align:center font-size:.7rem @768:.85rem @1024:1rem height:50px pt:50px
 
 tag question
 
@@ -296,17 +296,21 @@ tag app
 			arrayOfNumbers.push(i)
 		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
 		nextComposer()
+		console.log "numberOfWorks: {numberOfWorks}"
+		console.log "arrayOfNumbers: {arrayOfNumbers}"
+		console.log "shuffledArrayOfNumbers: {shuffledArrayOfNumbers}"
 
 	def reset
 		arrayOfNumbers = []
-		for i in [0...numberOfWorks]
-			arrayOfNumbers.push(i)
-		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
+		shuffledArrayOfNumbers = []
 		currentWorkIndex = -1
 		response = null
 		points = 0
 		endOfGame = no
 		startOfGame = yes
+		console.log "numberOfWorks: {numberOfWorks}"
+		console.log "arrayOfNumbers: {arrayOfNumbers}"
+		console.log "shuffledArrayOfNumbers: {shuffledArrayOfNumbers}"
 
 	
 	<self>
