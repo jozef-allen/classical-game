@@ -59,7 +59,7 @@ I'm now binding the ```self``` (which refers to the current component instance) 
 
 Another challenge was with Howler.js - on implementing my 'pause music' feature, I found I couldn't get it to cache the audio files and start and stop the music without redownloading the MP3 each time. This would not be ideal, so in the end I tried the vanilla JavaScript ```audio``` capabilities, which worked as I wanted, and I found the audio loaded faster this way anyway - double win.
 
-## Building the API
+### Building the API
 
 As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. The app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this might offer more playback potential as you challenge other users.
 
