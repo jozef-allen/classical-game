@@ -11,7 +11,7 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.intro-h1 font-size:1.5rem @768:2rem @1024:2.5rem text-align:center
 	.start-image width:80% @1024:50% @1500:800px rd:10px box-shadow: 2px 2px 3px gray9 display:block margin-left:auto margin-right:auto margin-top:0.5rem @768:0.75rem @1024:1rem margin-bottom:2rem @768:2rem @1024:3rem
 	.intro-text text-align:center width:60% margin-left:auto margin-right:auto
-	.intro-button-div display:flex justify-content:center p:1rem pb:4rem pt:2rem
+	.intro-button-div display:flex justify-content:center p:1rem pb:4rem pt:3.25rem
 	.intro-button-div button display:flex justify-content:center p:1.25rem
 	.select-div display:flex justify-content:center p:1rem pb:1rem flex-direction:column text-align:center
 	.select-div p font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold
@@ -28,6 +28,13 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.reset-button display:block margin:auto
 	.push height:50px
 	footer text-align:center font-size:.7rem @768:.85rem @1024:1rem height:50px pt:50px
+	.high-scores text-align:center mt:50px
+	.table-container display: flex justify-content: center align-items: center
+	table text-align:center border-collapse:collapse width:50% max-width:600px font-size:.85rem @768:1.1rem @1024:1.35rem mb:1rem
+	th, td padding:8px border-bottom:1px solid #ddd width:50%
+	h3 font-size:.95rem @768:1.2rem @1024:1.65rem
+	.player-name-input mt:1rem font-family:'Hedvig Letters Serif', serif font-size:.85rem @768:1.1rem @1024:1.35rem width:25% display:block margin-left:auto margin-right:auto text-align:center
+	h5 mt:20px mb:20px
 
 tag question
 
@@ -101,6 +108,7 @@ tag app
 	prop response = null
 	prop responseImage = null
 	prop points = 0
+	prop playerName = "Wolfgang"
 
 	# handling works
 	prop numberOfWorks
@@ -130,6 +138,7 @@ tag app
 	prop loaded?
 
 	prop highScores = null
+	prop hideRecordScoreButton = no
 	prop currentYear = new Date().getFullYear()
 
 	prop count
@@ -186,7 +195,10 @@ tag app
 			else if stage === "instrumentations"
 				responseImage = instrumentations[answerSheet].image
 			answered? = yes
-			points += 1
+			if difficulty === "easy"
+				points += 1
+			else
+				points += 2
 		else
 			response = "🎼 Incorrect! The answer is {answerSheet}."
 			if stage === "composers"
@@ -221,12 +233,20 @@ tag app
 		stage = "composers"
 		if currentWorkIndex >= numberOfWorks
 			loadingScreen = yes
-			fetchHighScores().then(do |data|
-				highScores = data
-				endOfGame = yes
-			).catch(do |error|
-				console.error("Error fetching high scores:", error)
-			)
+			window.fetch("https://classical-game-api-2.onrender.com/api/highscores")
+				.then(do |response|
+					if response.ok
+						response.json()
+					else
+						throw new Error("Failed to fetch")
+				).then(do |data|
+					highScores = data
+					endOfGame = yes
+					loadingScreen = no
+				).catch(do |error|
+					console.error("Error fetching high scores:", error)
+					endOfGame = yes
+					loadingScreen = no)
 		else
 			if difficulty === "easy"
 				work = easyWorks[shuffledArrayOfNumbers[currentWorkIndex]]
@@ -313,15 +333,18 @@ tag app
 		answerSheet = work.instrumentation
 
 	def startGame
-		startOfGame = no
-		if difficulty === "easy"
-			numberOfWorks = Object.keys(easyWorks).length
+		if playerName.trim() == ""
+			window.alert("Please enter a player name.")
 		else
-			numberOfWorks = Object.keys(difficultWorks).length
-		for i in [0...numberOfWorks]
-			arrayOfNumbers.push(i)
-		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
-		nextComposer()
+			startOfGame = no
+			if difficulty === "easy"
+				numberOfWorks = Object.keys(easyWorks).length
+			else
+				numberOfWorks = Object.keys(difficultWorks).length
+			for i in [0...numberOfWorks]
+				arrayOfNumbers.push(i)
+			shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
+			nextComposer()
 
 	def reset
 		arrayOfNumbers = []
@@ -331,30 +354,58 @@ tag app
 		points = 0
 		endOfGame = no
 		startOfGame = yes
+		hideRecordScoreButton = no
 
-	def setup
-
-	def fetchHighScores
-		return window.fetch("https://classical-game-api-2.onrender.com/api/highscores")
-			.then(do |response|
+	def recordScore
+		let lowestScore = highScores[-1].score
+		console.log lowestScore
+		if points > lowestScore
+			let data = {
+				playerName: playerName,
+				score: points
+			}
+			try
+				await window.fetch("https://classical-game-api-2.onrender.com/api/highscores", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				})
+				let response = await window.fetch("https://classical-game-api-2.onrender.com/api/highscores")
 				if response.ok
-					response.json()
+					let updatedScores = await response.json()
+					highScores = updatedScores
+					hideRecordScoreButton = yes
 				else
-					throw new Error("Failed to fetch high scores")
-			).catch(do |error|
-				console.error("Error fetching high scores:", error)
-			)
+					throw new Error("Failed to fetch")
+			catch error
+				console.error("Error recording score:", error)
+		else
+			window.alert "Sorry, you didn't score enough points."
 
-
+	
 	<self>
 		if endOfGame
 			<div .container>
 				<div .header>
 						<p> "End of game"
 						<p> "Points: {points}"
-				<p .end-message> if points === 1 then "You scored {points} point out of {numberOfWorks*4}!" else "You scored {points} points out of {numberOfWorks*4}!"
+				<p .end-message> if points === 1 then "{playerName}, you scored {points} point!" else "{playerName}, you scored {points} points!"
 				<button .reset-button @click=reset> "Play again"
-				<p> "High scores: {JSON.stringify(highScores)}"
+				<h3 .high-scores> "High scores"
+				<div .table-container>
+					<table>
+						<thead>
+							<tr>
+								<th> "Player"
+								<th> "Score"
+						<tbody>
+							for score in highScores
+								<tr>
+									<td> score.playerName
+									<td> score.score
+				<button .reset-button @click=recordScore [display:none]=hideRecordScoreButton> "Record score"
 				<div .push>
 			<footer>
 				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
@@ -365,7 +416,7 @@ tag app
 				<div .header>
 						<p> "End of game"
 						<p> "Points: {points}"
-				<p .end-message> "One moment..."
+				<p .end-message> "Please wait - we are retrieving the high scores..."
 				<div .push>
 			<footer>
 				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
@@ -379,6 +430,8 @@ tag app
 				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
 				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you may as well guess). Best of luck."
 				<div .select-div>
+					<h5> "Enter player name"
+						<input .player-name-input type="text" maxLength=8 bind=playerName>
 					<h5> "Select difficulty"
 						<select title="difficulty" bind=difficulty>
 							<option value="easy"> "Easy"
