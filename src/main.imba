@@ -16,7 +16,8 @@ global css body height:100% bgc:orange1 font-family:'Hedvig Letters Serif', seri
 	.select-div display:flex justify-content:center p:1rem pb:1rem flex-direction:column text-align:center
 	.select-div p font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold
 	select mt:1rem font-family:'Hedvig Letters Serif', serif font-size:.85rem @768:1.1rem @1024:1.35rem width:30% display:block margin-left:auto margin-right:auto
-	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem @1024:2rem pr:1rem @1024:2rem font-size:.75rem @768:1rem @1024:1.25rem font-weight:bold rd:10px
+	.header display:flex justify-content:space-between bgc:yellow3 pl:1rem @1024:2rem pr:1rem @1024:2rem font-size:.85rem @768:1.1rem @1024:1.35rem font-weight:bold rd:10px
+	.header p color:#000000
 	.work-title font-size:1rem @768:1.5rem @1024:1.75rem text-align:center pt:.5rem
 	# .period font-size:.75rem @768:1rem @1024:1.25rem text-align:center
 	# .composed-in font-size:.75rem @768:1rem @1024:1.25rem text-align:center
@@ -38,9 +39,9 @@ tag question
 		if stage === "composers" 
 			<p> "🎼 Who is the composer of this piece?"
 		else if stage === "periods"
-			<p> "🎼 During which period was this piece written?"
+			<p> "🎼 During which period did this composer work?"
 		else if stage === "forms"
-			<p> "🎼 What form is this piece?"
+			<p> "🎼 What is the principle form of this piece?"
 		else if stage === "instrumentations"
 			<p> "🎼 What instrumentation is this piece for?"
 
@@ -95,6 +96,7 @@ tag app
 	prop difficulty = "easy"
 	prop startOfGame = yes
 	prop endOfGame = no
+	prop loadingScreen = no
 	prop stage
 	prop response = null
 	prop responseImage = null
@@ -127,9 +129,26 @@ tag app
 	prop stopped?
 	prop loaded?
 
-
+	prop highScores = null
 	prop currentYear = new Date().getFullYear()
+
+	prop count
+	prop timer = null
+
+
+	def startTimer
+		count = 60
+		console.log count
+		timer = setInterval decrementTimer, 1000
+		console.log "start timer"
+
+	def decrementTimer
+		console.log count
 	
+	def stopTimer
+		clearInterval(timer)
+		timer = null
+		
 	def onLoad
 		loaded? = yes
 
@@ -201,7 +220,13 @@ tag app
 		currentWorkIndex += 1
 		stage = "composers"
 		if currentWorkIndex >= numberOfWorks
-			endOfGame = yes
+			loadingScreen = yes
+			fetchHighScores().then(do |data|
+				highScores = data
+				endOfGame = yes
+			).catch(do |error|
+				console.error("Error fetching high scores:", error)
+			)
 		else
 			if difficulty === "easy"
 				work = easyWorks[shuffledArrayOfNumbers[currentWorkIndex]]
@@ -212,6 +237,7 @@ tag app
 			stageAndShuffle(composers, work.composer)
 			populateComposers()
 			loadAndPlayAudio()
+			startTimer()
 
 	def nextPeriod
 		stage = "periods"
@@ -296,9 +322,6 @@ tag app
 			arrayOfNumbers.push(i)
 		shuffledArrayOfNumbers = shuffleArray(arrayOfNumbers)
 		nextComposer()
-		console.log "numberOfWorks: {numberOfWorks}"
-		console.log "arrayOfNumbers: {arrayOfNumbers}"
-		console.log "shuffledArrayOfNumbers: {shuffledArrayOfNumbers}"
 
 	def reset
 		arrayOfNumbers = []
@@ -308,11 +331,21 @@ tag app
 		points = 0
 		endOfGame = no
 		startOfGame = yes
-		console.log "numberOfWorks: {numberOfWorks}"
-		console.log "arrayOfNumbers: {arrayOfNumbers}"
-		console.log "shuffledArrayOfNumbers: {shuffledArrayOfNumbers}"
 
-	
+	def setup
+
+	def fetchHighScores
+		return window.fetch("https://classical-game-api-2.onrender.com/api/highscores")
+			.then(do |response|
+				if response.ok
+					response.json()
+				else
+					throw new Error("Failed to fetch high scores")
+			).catch(do |error|
+				console.error("Error fetching high scores:", error)
+			)
+
+
 	<self>
 		if endOfGame
 			<div .container>
@@ -321,6 +354,18 @@ tag app
 						<p> "Points: {points}"
 				<p .end-message> if points === 1 then "You scored {points} point out of {numberOfWorks*4}!" else "You scored {points} points out of {numberOfWorks*4}!"
 				<button .reset-button @click=reset> "Play again"
+				<p> "High scores: {JSON.stringify(highScores)}"
+				<div .push>
+			<footer>
+				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
+				" - {currentYear} © Built in " 
+				<a target="_blank" href="https://imba.io/"> "Imba"
+		else if loadingScreen
+			<div .container>
+				<div .header>
+						<p> "End of game"
+						<p> "Points: {points}"
+				<p .end-message> "One moment..."
 				<div .push>
 			<footer>
 				<a target="_blank" href="https://joseph.ptesquad.com/"> "Joseph Allen" 
@@ -348,7 +393,8 @@ tag app
 		else
 			<div .container>	
 				<div .header>	
-					<p> "#{currentWorkIndex + 1} / {numberOfWorks}"
+					<p> "Round {currentWorkIndex + 1} of {numberOfWorks}"
+					<p> "Time left in this round: {count}"
 					<p> "Points: {points}"
 				<p .work-title>
 					if difficulty === "easy"  

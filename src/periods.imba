@@ -16,8 +16,14 @@ export const periods = {
 	"Romantic": {
 		image: "{baseUrl}romantic.png"
 	},
-	"20th century": {
-		image: "{baseUrl}20th-century.png"
+	"Romantic/20th century": {
+		image: "{baseUrl}romantic-20th-century.png"
+	},
+	"Baroque/classical": {
+		image: "{baseUrl}baroque-classical.png"
+	},
+	"Classical/romantic": {
+		image: "{baseUrl}classical-romantic.png"
 	}
 }
 

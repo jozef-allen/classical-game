@@ -37,7 +37,7 @@ export const easy = {
 	3: {
 	title: "Für Elise",
 	composer: "Ludwig van Beethoven",
-	period: "Classical",
+	period: "Classical/romantic",
 	composedIn: "1810",
 	form: "Bagatelle",
 	instrumentation: "Piano",

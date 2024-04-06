@@ -8,14 +8,14 @@ export const difficult = {
 	composedIn: "1886",
 	form: "Sonata",
 	instrumentation: "Violin and piano",
-	recordedIn: "Unknown",
-	recordedBy: "Paul Pitman, Bang-Eun Lee",
-	src: "{baseUrl}fourth-movement-of-sonata-in-a-major-for-violin-and-piano.mp3"
+	recordedIn: "1961",
+	recordedBy: "Isaac Stern, Alexander Zakin",
+	src: "{baseUrl}fourth-movement-from-sonata-in-a-major-for-violin-and-piano.mp3"
 	},
 	1: {
 	title: "First Movement from Ancient Airs and Dances, Suite No. 1",
 	composer: "Ottorino Respighi",
-	period: "20th century",
+	period: "Romantic/20th century",
 	composedIn: "1917",
 	form: "Suite",
 	instrumentation: "Orchestra",
@@ -37,7 +37,7 @@ export const difficult = {
 	3: {
 	title: "Second Movement from Concerto in G",
 	composer: "Carl Philipp Emanuel Bach",
-	period: "Classical",
+	period: "Baroque/classical",
 	composedIn: "1755",
 	form: "Concerto",
 	instrumentation: "Flute and strings",
@@ -70,7 +70,7 @@ export const difficult = {
 	6: {
 	title: "March for Military Band",
 	composer: "Ludwig van Beethoven",
-	period: "Classical",
+	period: "Classical/romantic",
 	composedIn: "1816",
 	form: "March",
 	instrumentation: "Military band",
