@@ -423,8 +423,9 @@ tag app
 				<h1 .intro-h1> "Classical Music Quiz"
 				<img .start-image src="https://joseph.ptesquad.com/game/images/orchestra.png">
 				<p .intro-text> "🎼 Let's test your knowledge of classical music."
-				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each one."
-				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know (though you may as well guess). Best of luck."
+				<p .intro-text> "🎼 Once you click 'Start', you'll be played various pieces in turn and asked questions about each."
+				<p .intro-text> "🎼 You'll only get one try at each answer. You can skip if you don't know, though you may as well guess."
+				<p .intro-text> "🎼 There are 10 rounds to each difficulty setting. Best of luck."
 				<div .select-div>
 					<h5> "Enter player name"
 						<input .player-name-input type="text" maxLength=8 bind=playerName>
