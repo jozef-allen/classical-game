@@ -144,15 +144,15 @@ tag app
 	prop count
 	prop timer = null
 
-
 	def startTimer
 		count = 60
-		console.log count
-		timer = setInterval decrementTimer, 1000
-		console.log "start timer"
+		clearInterval(timer)
+		timer = setInterval decrementTimer.bind(self), 1000
 
 	def decrementTimer
-		console.log count
+		if count > 1
+			count--
+			imba.commit()
 	
 	def stopTimer
 		clearInterval(timer)
@@ -196,9 +196,9 @@ tag app
 				responseImage = instrumentations[answerSheet].image
 			answered? = yes
 			if difficulty === "easy"
-				points += 1
+				points += (1*count)
 			else
-				points += 2
+				points += (2*count)
 		else
 			response = "🎼 Incorrect! The answer is {answerSheet}."
 			if stage === "composers"
@@ -446,8 +446,8 @@ tag app
 		else
 			<div .container>	
 				<div .header>	
-					<p> "Round {currentWorkIndex + 1} of {numberOfWorks}"
-					<p> "Time left in this round: {count}"
+					<p> "{currentWorkIndex + 1}/{numberOfWorks}"
+					<p> "Time left this round: {count}"
 					<p> "Points: {points}"
 				<p .work-title>
 					if difficulty === "easy"  
