@@ -46,9 +46,9 @@ tag question
 		if stage === "composers" 
 			<p> "🎼 Who is the composer of this piece?"
 		else if stage === "periods"
-			<p> "🎼 During which period did this composer work?"
-		else if stage === "forms"
-			<p> "🎼 What is the principle form of this piece?"
+			<p> "🎼 Which period does this composer belong to?"
+		# else if stage === "forms"
+		#	<p> "🎼 What is the principle form of this piece?"
 		else if stage === "instrumentations"
 			<p> "🎼 What instrumentation is this piece for?"
 
@@ -120,7 +120,7 @@ tag app
 	prop arrayOfX
 	prop arrayOfComposers
 	prop arrayOfPeriods
-	prop arrayOfForms
+	# prop arrayOfForms
 	prop arrayOfInstrumentations
 	
 	# handling choices
@@ -145,7 +145,7 @@ tag app
 	prop timer = null
 
 	def startTimer
-		count = 60
+		count = 45
 		clearInterval(timer)
 		timer = setInterval decrementTimer.bind(self), 1000
 
@@ -190,8 +190,6 @@ tag app
 				responseImage = composers[answerSheet].image
 			else if stage === "periods"
 				responseImage = periods[answerSheet].image
-			else if stage === "forms"
-				responseImage = forms[answerSheet].image
 			else if stage === "instrumentations"
 				responseImage = instrumentations[answerSheet].image
 			answered? = yes
@@ -205,8 +203,6 @@ tag app
 				responseImage = composers[answerSheet].image
 			else if stage === "periods"
 				responseImage = periods[answerSheet].image
-			else if stage === "forms"
-				responseImage = forms[answerSheet].image
 			else if stage === "instrumentations"
 				responseImage = instrumentations[answerSheet].image
 			answered? = yes	
@@ -266,12 +262,12 @@ tag app
 		stageAndShuffle(periods, work.period)
 		populatePeriods()
 
-	def nextForm
-		stage = "forms"
-		arrayOfForms = []
-		answered? = no			
-		stageAndShuffle(forms, work.form)
-		populateForms()
+	# def nextForm
+	#	stage = "forms"
+	#	arrayOfForms = []
+	#	answered? = no			
+	#	stageAndShuffle(forms, work.form)
+	#	populateForms()
 
 	def nextInstrumentation
 		stage = "instrumentations"
@@ -310,16 +306,16 @@ tag app
 		choiceFourImage = periods[choiceFour].image
 		answerSheet = work.period
 
-	def populateForms
-		choiceOne = arrayOfX[0]
-		choiceTwo = arrayOfX[1]
-		choiceThree = arrayOfX[2]
-		choiceFour = arrayOfX[3]
-		choiceOneImage = forms[choiceOne].image
-		choiceTwoImage = forms[choiceTwo].image
-		choiceThreeImage = forms[choiceThree].image
-		choiceFourImage = forms[choiceFour].image
-		answerSheet = work.form
+	# def populateForms
+	#	choiceOne = arrayOfX[0]
+	#	choiceTwo = arrayOfX[1]
+	#	choiceThree = arrayOfX[2]
+	#	choiceFour = arrayOfX[3]
+	#	choiceOneImage = forms[choiceOne].image
+	#	choiceTwoImage = forms[choiceTwo].image
+	#	choiceThreeImage = forms[choiceThree].image
+	#	choiceFourImage = forms[choiceFour].image
+	#	answerSheet = work.form
 
 	def populateInstrumentations
 		choiceOne = arrayOfX[0]
@@ -465,8 +461,6 @@ tag app
 					else if stage === "composers"
 						<button @click=nextPeriod> "Next"
 					else if stage === "periods"
-						<button @click=nextForm> "Next"
-					else if stage === "forms"
 						<button @click=nextInstrumentation> "Next"
 					if stopped? === yes 
 						<button @click=playAudio [ml:10px]> "Play music"
