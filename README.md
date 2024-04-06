@@ -18,6 +18,8 @@ To create an educational game and teach myself Imba along the way.
 - Netlify
 - Render
 - Audacity
+- Express
+- CORS
 
 ## Planning
 
@@ -61,7 +63,9 @@ Another challenge was with Howler.js - on implementing my 'pause music' feature,
 
 ### Building the API
 
-As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. The app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this might offer more playback potential as you challenge other users.
+As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It uses Express for routing/requests/responses and uses CORS to limit access to only the one domain.
+
+It stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. The app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this might offer more playback potential as you challenge other users.
 
 ### Asking for help testing
 
