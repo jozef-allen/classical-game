@@ -64,7 +64,7 @@ The ```input``` is the object containing all possible answers for that question,
 
 ### Styling
 
-I wanted to try using Imba's built in named colours to help create a nice colour palette, and I settled on an orange look. I made a lot of use of border radius too to keep everything looking pleasant and rounded. Fairly early on I made the whole layout fully responsive, then was able to concentrate on adding to the logic.
+I wanted to try using Imba's built in named colours to help create a nice colour palette, and I settled on an orange look. I made a lot of use of border radius to keep everything looking rounded, and I soon got used to Imba's multitude of shorthand CSS properties - really great. Fairly early on I made the whole layout fully responsive, then was able to concentrate on adding to the logic.
 
 ### Making progress/challenges
 
