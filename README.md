@@ -84,9 +84,9 @@ Another challenge was with Howler.js - on implementing my 'pause music' feature,
 
 ### Building the API
 
-As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It uses Express for routing/requests/responses, CORS to limit access to only the one domain and JSON to pass the data back and forth.
+As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a Node.js API that would run on Render. It uses Express for routing/requests/responses, CORS to limit access to only the one domain and JSON to pass the data back and forth.
 
-The API has an array that stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. It is the app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this feature might offer more playback potential as users try to challenge other users' scores.
+The API has an JSON array that stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the array to only holding 10 players/scores. It is the app that decides whether a score is high enough to register, and then makes the request, and then the leaderboard updates in front of the user. I thought this feature might offer more playback potential as users try to challenge other users' scores.
 
 ### Asking for help testing
 
