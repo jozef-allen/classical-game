@@ -2,7 +2,7 @@
 
 ## Goal
 
-To create an educational game and teach myself Imba along the way.
+To create an educational game and teach myself [Imba](https://imba.io/) along the way.
 
 ## Live version
 
