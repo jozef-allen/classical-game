@@ -41,11 +41,32 @@ I knew the various categories of possible answers would need to sit in objects. 
 
 I created the ```choices``` and ```response``` tags to make use of Imba's component-based way of working, and these housed the functionality for the possibles choices to each question, and the subsequent screen which tells you whether you were right or wrong. I used multiple flags to switch between 'screens'. Of course, I made use of Imba's intuitive syntax for passing properties between tags.
 
+A simple explanation of the flow of the game: a random piece of music is played and then three questions are asked about it:
+- Composer
+- Period
+- Instrumentation
+
+The four options provided as choices are the one correct answer, plus three random choices from all possibilities within the game. Much of that work is done by this important function:
+```
+	def stageAndShuffle input, value
+		const auxiliaryArray = []
+		for object in Object.keys(input)
+			auxiliaryArray.push(object)
+		let indexOfCurrentX = auxiliaryArray.indexOf(value)
+		if indexOfCurrentX != -1
+			auxiliaryArray.splice(indexOfCurrentX, 1)
+		shuffleArray(auxiliaryArray)
+		arrayOfX = auxiliaryArray.slice(0, 3)
+		arrayOfX.push(value)
+		shuffleArray(arrayOfX)
+```
+The ```input``` is the object containing all possible answers for that question, e.g. composers, while the ```value``` is the correct answer. All the possible answers (e.g. composers) are pushed into the ```auxiliaryArray```, then the index of the answer within that array is found and spliced out. This allows me to then shuffle the array randomly, slice off the top three and place the correct answer back in, then shuffle again.
+
 ### Styling
 
 I wanted to try using Imba's built in named colours to help create a nice colour palette, and I settled on an orange look. I made a lot of use of border radius too to keep everything looking pleasant and rounded. Fairly early on I made the whole layout fully responsive, then was able to concentrate on adding to the logic.
 
-### Making progress
+### Making progress/challenges
 
 I was so impressed with how intuitive Imba is at letting you create the building blocks that make up your app. There were a few challenges along the way though, especially because the Imba documentation isn't fully fleshed out yet. The language is obviously based on JavaScript, but there are a few things that you need to know Imba's particular syntax for. This leads me into some of the challenges I faced on this project:
 
@@ -53,7 +74,7 @@ For the timer that ticks down during each round I wanted to use ```setInterval``
 ```
 timer = setInterval decrementTimer, 1000
 ```
-Running ```decrementTimer``` through ```setInterval``` seemed to change the prop I was relying on into an ```undefined``` value. I could find some similar queries on Stack Overflow but nothing specific to Imba, so I asked if anyone on the [Imba Discord](https://discord.com/invite/mkcbkRw) knew a solution and within a couple of hours I got back some help which led me to use the below, and then my timer was working.
+Running ```decrementTimer``` through ```setInterval``` seemed to change the prop I was relying on into an ```undefined``` value. I could find some similar queries on Stack Overflow but nothing specific to Imba, so I asked if anyone on the [Imba Discord](https://discord.com/invite/mkcbkRw) could advise, and within a couple of hours I got back some help which led me to use the below.
 ```
 timer = setInterval decrementTimer.bind(self), 1000
 ```
@@ -63,9 +84,9 @@ Another challenge was with Howler.js - on implementing my 'pause music' feature,
 
 ### Building the API
 
-As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It uses Express for routing/requests/responses and uses CORS to limit access to only the one domain.
+As my quiz was really coming together, I knew I wanted functionality where, if players' scores were high enough, they could add them to a high score board. To do this I wrote a simple Node.js API that would run on Render. It uses Express for routing/requests/responses, CORS to limit access to only the one domain and JSON to pass the data back and forth.
 
-It stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. The app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this might offer more playback potential as you challenge other users.
+The API has an array that stores the top 10 player names and their scores, and it can receive two types of requests - GET and POST. It also limits the JSON array to only holding 10 players/scores. It is the app decides whether a score is high enough to register and then makes the request, and then the leaderboard updates in front of the user. I thought this feature might offer more playback potential as users try to challenge other users' scores.
 
 ### Asking for help testing
 
